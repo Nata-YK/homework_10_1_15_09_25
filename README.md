@@ -8,13 +8,18 @@ state соответствует указанному значению;
 date).
 3) код для функции filter_by_state
 ```
-
-    
+def filter_by_state(list_diction: Iterable[dict], state='EXECUTED') -> Iterable[dict]:
+    new_diction = []
+    for k in list_diction:
+        if k['state'] == state:
+            new_diction.append(k)
+    return new_diction
 ```
 4) код для функции sort_by_date
 ```
-
-
+def sort_by_date(list_diction: Iterable[dict])-> Iterable[dict]:
+    sorted_list_data = sorted(list_diction, key=lambda x: x['date'], reverse=True)
+    return sorted_list_data
 ```
 ### Пример входных данных для проверки 
 1) функция filter_by_state
