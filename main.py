@@ -1,10 +1,10 @@
-from typing import Union
+from typing import Any
 
 from src.processing import filter_by_state
 from src.processing import sort_by_date
 
 
-def print_hi(name: Union[str]) -> Union[str]:
+def print_hi(name: Any[str]) -> Any[str]:
 
     print(f"Hi, {name}")
 
