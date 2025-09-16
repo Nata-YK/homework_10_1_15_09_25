@@ -1,6 +1,4 @@
-from typing import Iterable
-from typing import Union
-from typing import Any
+from typing import Any, Iterable, Union
 
 
 def filter_by_state(list_diction: Iterable[dict], state: Union[str] = "EXECUTED") -> Any[list]:
