@@ -1,7 +1,7 @@
-from typing import Any, Iterable, Union
+from typing import Iterable, List, Union
 
 
-def filter_by_state(list_diction: Iterable[dict], state: Union[str] = "EXECUTED") -> Any[list]:
+def filter_by_state(list_diction: Iterable[dict], state: Union[str] = "EXECUTED") -> List[dict]:
     """
     Функция принимает список словарей и опционально значение для ключа state (по умолчанию 'EXECUTED').
     Функция возвращает новый список словарей, содержащий только те словари, у которых ключ state
@@ -14,7 +14,7 @@ def filter_by_state(list_diction: Iterable[dict], state: Union[str] = "EXECUTED"
     return filtered_transactions
 
 
-def sort_by_date(list_diction: Iterable[dict], sort_parameter: Any[bool] = True) -> Any[list]:
+def sort_by_date(list_diction: Iterable[dict], sort_parameter: bool = True) -> List[dict]:
     """
     Функция принимает список словарей и необязательный параметр, задающий порядок сортировки (по умолчанию — убывание).
     Функция должна возвращать новый список, отсортированный по дате (date).
