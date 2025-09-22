@@ -1,7 +1,7 @@
 import pytest
 
 from src.widget import mask_account_card, get_date
-from tests.conftext import card_empty
+
 
 
 @pytest.mark.parametrize("string, number_card_and_account", [
