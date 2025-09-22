@@ -2,7 +2,7 @@ from typing import Union
 
 from src.masks import get_mask_card_number, get_mask_account
 from src.processing import filter_by_state, sort_by_date
-from src.widget import mask_account_card
+from src.widget import mask_account_card, get_date
 
 
 def print_hi(name: Union[str]) -> Union[str]:
@@ -35,6 +35,6 @@ print(
     )
 )
 
-print(get_mask_account())
-print(get_mask_card_number())
-print(mask_account_card('Visa Platinum 7000792289606361'))
+print(mask_account_card('Visa Platinum 8990922113665229'))
+print(mask_account_card('Visa Gold 5999414228426353'))
+print(get_date(""))

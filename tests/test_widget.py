@@ -1,0 +1,34 @@
+import pytest
+
+from src.widget import mask_account_card, get_date
+from tests.conftext import card_empty
+
+
+@pytest.mark.parametrize("string, number_card_and_account", [
+    ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
+    ("Счет 64686473678894779589", "Счет **9589"),
+    ("MasterCard 7158300734726758","MasterCard 7158 30** **** 6758"),
+    ("Счет 35383033474447895560", "Счет **5560"),
+    ("Visa Classic 6831982476737658", "Visa Classic 6831 98** **** 7658"),
+    ("Visa Platinum 8990922113665229","Visa Platinum 8990 92** **** 5229"),
+    ("Visa Gold 5999414228426353","Visa Gold 5999 41** **** 6353"),
+    ("Счет 73654108430135874305", "Счет **4305")
+])
+def test_mask_account_card(string, number_card_and_account):
+    assert mask_account_card(string) == number_card_and_account
+with pytest.raises(IndexError):
+    mask_account_card("")
+
+def test_mask_account_card_empty(card_empty):
+    assert mask_account_card(card_empty) == " Вы ничего не ввели"
+
+@pytest.mark.parametrize("date_string, date_wind", [
+    ("2024-03-11T02:26:18.671407", "11.03.2024"),
+    ("2018-06-30T02:08:58.425572", "30.06.2018"),
+    ("2019-07-03T18:35:29.512364", "03.07.2019")
+])
+def test_get_date(date_string, date_wind):
+    assert get_date(date_string) == date_wind
+
+def test_get_date_empty():
+    assert get_date("") == "Внесите данные"

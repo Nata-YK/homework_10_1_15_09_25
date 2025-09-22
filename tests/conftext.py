@@ -24,3 +24,7 @@ def card_account_mask():
 @pytest.fixture
 def card_empty():
     return " "
+
+@pytest.fixture
+def card_empty():
+    return " "
