@@ -1,34 +1,38 @@
+from typing import List, Union
+
 import pytest
 
 
 @pytest.fixture
-def card_number_list():
-    return '7000792289606361'
+def card_number_list() -> Union[str]:
+    return "7000792289606361"
 
 
 @pytest.fixture
-def card_number_mask():
-    return '7000 79** **** 6361'
+def card_number_mask() -> Union[str]:
+    return "7000 79** **** 6361"
 
 
 @pytest.fixture
-def card_account_list():
-    return '73654108430135874305'
+def card_account_list() -> Union[str]:
+    return "73654108430135874305"
 
 
 @pytest.fixture
-def card_account_mask():
-    return '**4305'
+def card_account_mask() -> Union[str]:
+    return "**4305"
 
 
 @pytest.fixture
-def card_empty():
+def card_empty() -> Union[str]:
     return " "
 
 
 @pytest.fixture
-def dictionary_executed():
-    return [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-            {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-            {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-            {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}]
+def dictionary_executed() -> List[dict]:
+    return [
+        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+    ]

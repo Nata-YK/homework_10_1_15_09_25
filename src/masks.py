@@ -37,5 +37,3 @@ def get_mask_account(account_number: Union[str]) -> Union[str]:
         return "Не вреное количество знаков, в номере счета их должно быть 20"
     else:
         return "Вы ничего не ввели"
-
-
