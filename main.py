@@ -1,9 +1,11 @@
-from typing import Any
+from typing import Union
 
+from src.masks import get_mask_card_number, get_mask_account
 from src.processing import filter_by_state, sort_by_date
+from src.widget import mask_account_card
 
 
-def print_hi(name: Any[str]) -> Any[str]:
+def print_hi(name: Union[str]) -> Union[str]:
 
     print(f"Hi, {name}")
 
@@ -32,3 +34,7 @@ print(
         ]
     )
 )
+
+print(get_mask_account())
+print(get_mask_card_number())
+print(mask_account_card('Visa Platinum 7000792289606361'))
