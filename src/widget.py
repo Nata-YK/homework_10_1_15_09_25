@@ -22,6 +22,9 @@ def get_date(listing_date: Union[str]) -> Union[str]:
     """
     data_ = []
     point = "."
-    for d in listing_date:
-        data_.append(d)
-    return "".join(data_[8:10]) + point + "".join(data_[5:7]) + point + "".join(data_[:4])
+    if len(listing_date) > 0:
+        for d in listing_date:
+            data_.append(d)
+        return "".join(data_[8:10]) + point + "".join(data_[5:7]) + point + "".join(data_[:4])
+    else:
+        return "Внесите данные"
