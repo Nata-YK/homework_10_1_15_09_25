@@ -1,4 +1,4 @@
-from typing import Union, Generator, Any, Iterable
+from typing import Any, Generator, Iterable, Union
 
 
 def filter_by_currency(dict_filter_by_currency: Iterable[dict], forex: Union[str]="USD") -> Generator[Any, Any, None]:
