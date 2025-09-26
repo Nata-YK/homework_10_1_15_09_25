@@ -90,15 +90,17 @@ dict_filter_by_currency = [
         "to": "Счет 75651667383060284188",
     },
 ]
+dict_filter_by_currency_empty = []
+
 generator_1 = filter_by_currency(dict_filter_by_currency, forex="RUB")
 print(next(generator_1))
+print(next(generator_1))
 # print(next(generator_1))
-# print(next(generator_1))
 
-generator_2 = transaction_descriptions(dict_filter_by_currency)
-print(next(generator_2))
-print(next(generator_2))
-
-
-generator_3 = card_number_generator()
-print(next(generator_3))
+# generator_2 = transaction_descriptions(dict_filter_by_currency)
+# print(next(generator_2))
+# print(next(generator_2))
+#
+#
+# generator_3 = card_number_generator()
+# print(next(generator_3))
