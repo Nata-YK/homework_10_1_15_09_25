@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
@@ -63,44 +63,54 @@ dict_filter_by_currency = [
         "to": "Счет 75651667383060284188",
     },
     {
-        "id": 142264643,
+        "id": 873106923,
         "state": "EXECUTED",
-        "date": "2025-01-01T23:20:05.206878",
-        "operationAmount": {"amount": "25000", "currency": {"name": "RUB", "code": "RUB"}},
+        "date": "2019-03-23T01:09:46.296404",
+        "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
         "description": "Перевод со счета на счет",
-        "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188",
+        "from": "Счет 44812258784861134719",
+        "to": "Счет 74489636417521191160",
     },
     {
-        "id": 142264978,
+        "id": 895315941,
         "state": "EXECUTED",
-        "date": "2025-02-01T23:20:05.206878",
-        "operationAmount": {"amount": "50000", "currency": {"name": "EUR", "code": "EUR"}},
-        "description": "Перевод со счета на счет",
-        "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188",
-    },
-    {
-        "id": 142264643,
-        "state": "EXECUTED",
-        "date": "2025-01-02T23:20:05.206878",
-        "operationAmount": {"amount": "35000", "currency": {"name": "RUB", "code": "RUB"}},
+        "date": "2018-08-19T04:27:37.904916",
+        "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
         "description": "Перевод с карты на карту",
-        "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188",
+        "from": "Visa Classic 6831982476737658",
+        "to": "Visa Platinum 8990922113665229",
+    },
+    {
+        "id": 594226727,
+        "state": "CANCELED",
+        "date": "2018-09-12T21:27:25.241689",
+        "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Visa Platinum 1246377376343588",
+        "to": "Счет 14211924144426031657",
     },
 ]
-dict_filter_by_currency_empty = []
+dict_filter_by_currency_empty: List[str] = []
 
-generator_1 = filter_by_currency(dict_filter_by_currency, forex="RUB")
+generator_1 = filter_by_currency(dict_filter_by_currency, forex="руб.")
+print(next(generator_1))
+print(next(generator_1))
+print(next(generator_1))
 print(next(generator_1))
 print(next(generator_1))
 # print(next(generator_1))
 
-# generator_2 = transaction_descriptions(dict_filter_by_currency)
-# print(next(generator_2))
-# print(next(generator_2))
-#
-#
-# generator_3 = card_number_generator()
-# print(next(generator_3))
+generator_2 = transaction_descriptions(dict_filter_by_currency)
+print(next(generator_2))
+print(next(generator_2))
+
+
+generator_3 = card_number_generator(4, 10)
+
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
