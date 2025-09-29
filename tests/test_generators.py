@@ -1,9 +1,6 @@
 from typing import List
 
-import pytest
-
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
-from tests.conftest import dict_for_test_empty
 
 
 def test_filter_by_currency(
@@ -14,7 +11,7 @@ def test_filter_by_currency(
 ) -> None:
     generator_filter_by_currency_ = filter_by_currency(dict_for_test, forex="USD")
     generator_filter_by_currency = filter_by_currency(dict_for_test)
-    generator_filter_by_currency_currency = filter_by_currency (dict_for_test, forex="EURO")
+    generator_filter_by_currency_currency = filter_by_currency(dict_for_test, forex="EURO")
     generator_filter_by_currency_empty = filter_by_currency(dict_for_test_empty)
     assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_1
     assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_2
@@ -28,6 +25,7 @@ def test_filter_by_currency(
         next(generator_filter_by_currency_currency)
     except StopIteration:
         print("Информация о валюте отсутствует в строке.")
+
 
 def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty: List[dict]) -> None:
     generator_transaction_descriptions = transaction_descriptions(dict_for_test)

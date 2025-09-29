@@ -4,7 +4,6 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
-from tests.conftest import dict_for_test
 
 
 def print_hi(name: Union[str]) -> None:
@@ -92,9 +91,7 @@ dict_filter_by_currency = [
     },
 ]
 dict_filter_by_currency_empty: List[dict] = []
-# print(dict_filter_by_currency.get("operationAmount"))
-# key_functi = (k for k in dict_filter_by_currency if k.get("operationAmount", {}).get("currency", {}).get("name") == "руб.")
-# print(len(list(key_functi)) == False)
+
 generator_1 = filter_by_currency(dict_filter_by_currency, forex="руб.")
 print(next(generator_1))
 print(next(generator_1))
@@ -105,19 +102,19 @@ try:
 except StopIteration:
     print("Отсутствует итерируемый объект.")
 
-# generator_2 = transaction_descriptions([])
-# try:
-#     print(next(generator_2))
-# except StopIteration:
-#     print("Отсутствует итерируемый объект.")
+generator_2 = transaction_descriptions([])
+try:
+    print(next(generator_2))
+except StopIteration:
+    print("Отсутствует итерируемый объект.")
 
 
-# generator_3 = card_number_generator(10, 9)
-#
-# print(next(generator_3))
-# print(next(generator_3))
-# print(next(generator_3))
-# print(next(generator_3))
-# print(next(generator_3))
-# print(next(generator_3))
-# print(next(generator_3))
+generator_3 = card_number_generator(10, 9)
+
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
+print(next(generator_3))
