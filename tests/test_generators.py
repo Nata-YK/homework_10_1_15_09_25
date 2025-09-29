@@ -10,10 +10,11 @@ def test_filter_by_currency(
     dictionary_for_generator_filter_by_currency_1: List[str],
     dictionary_for_generator_filter_by_currency_2: List[str],
     dict_for_test: List[dict],
-    dict_for_test_empty: List[str],
+    dict_for_test_empty: List[dict],
 ) -> None:
     generator_filter_by_currency_ = filter_by_currency(dict_for_test, forex="USD")
     generator_filter_by_currency = filter_by_currency(dict_for_test)
+    generator_filter_by_currency_currency = filter_by_currency (dict_for_test, forex="EURO")
     generator_filter_by_currency_empty = filter_by_currency(dict_for_test_empty)
     assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_1
     assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_2
@@ -23,9 +24,12 @@ def test_filter_by_currency(
         next(generator_filter_by_currency_empty)
     except StopIteration:
         print("Отсутствует итерируемый объект.")
+    try:
+        next(generator_filter_by_currency_currency)
+    except StopIteration:
+        print("Информация о валюте отсутствует в строке.")
 
-
-def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty: List[str]) -> None:
+def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty: List[dict]) -> None:
     generator_transaction_descriptions = transaction_descriptions(dict_for_test)
     generator_empty = transaction_descriptions(dict_for_test_empty)
     assert next(generator_transaction_descriptions) == "Перевод организации"

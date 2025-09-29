@@ -8,15 +8,14 @@ def filter_by_currency(dict_for_test: List[dict], forex: Union[str] = "USD") -> 
     ной (например, USD).
     """
 
-    not_key_operationAmount = (key for key in dict_for_test if key.get("operationAmount"))
     if not dict_for_test or dict_for_test == []:
         print("Отсутствует итерируемый объект.")
-    elif not not_key_operationAmount:
-        print("Информация о валюте отсутствует в строке.")
     else:
         for k in dict_for_test:
             if k.get("operationAmount", {}).get("currency", {}).get("name") == forex:
                 yield k
+            elif k.get("operationAmount", {}).get("currency", {}).get("name") != forex:
+                print("Информация о валюте отсутствует в строке.")
 
 
 def transaction_descriptions(dict_for_test: List[dict]) -> Generator[Any, Any, None]:

@@ -4,6 +4,7 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
+from tests.conftest import dict_for_test
 
 
 def print_hi(name: Union[str]) -> None:
@@ -66,7 +67,7 @@ dict_filter_by_currency = [
         "id": 873106923,
         "state": "EXECUTED",
         "date": "2019-03-23T01:09:46.296404",
-        # "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
         "description": "Перевод со счета на счет",
         "from": "Счет 44812258784861134719",
         "to": "Счет 74489636417521191160",
@@ -75,7 +76,7 @@ dict_filter_by_currency = [
         "id": 895315941,
         "state": "EXECUTED",
         "date": "2018-08-19T04:27:37.904916",
-        "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
+        # "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
         "description": "Перевод с карты на карту",
         "from": "Visa Classic 6831982476737658",
         "to": "Visa Platinum 8990922113665229",
@@ -84,34 +85,39 @@ dict_filter_by_currency = [
         "id": 594226727,
         "state": "CANCELED",
         "date": "2018-09-12T21:27:25.241689",
-        "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+        # "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
         "description": "Перевод организации",
         "from": "Visa Platinum 1246377376343588",
         "to": "Счет 14211924144426031657",
     },
 ]
-dict_filter_by_currency_empty: List[str] = []
+dict_filter_by_currency_empty: List[dict] = []
 # print(dict_filter_by_currency.get("operationAmount"))
-
-generator_1 = filter_by_currency(dict_filter_by_currency_empty, "руб.")
+# key_functi = (k for k in dict_filter_by_currency if k.get("operationAmount", {}).get("currency", {}).get("name") == "руб.")
+# print(len(list(key_functi)) == False)
+generator_1 = filter_by_currency(dict_filter_by_currency, forex="руб.")
+print(next(generator_1))
+print(next(generator_1))
+print(next(generator_1))
+print(next(generator_1))
 try:
     print(next(generator_1))
 except StopIteration:
     print("Отсутствует итерируемый объект.")
 
-generator_2 = transaction_descriptions([])
-try:
-    print(next(generator_2))
-except StopIteration:
-    print("Отсутствует итерируемый объект.")
+# generator_2 = transaction_descriptions([])
+# try:
+#     print(next(generator_2))
+# except StopIteration:
+#     print("Отсутствует итерируемый объект.")
 
 
-generator_3 = card_number_generator(10, 9)
-
-print(next(generator_3))
-print(next(generator_3))
-print(next(generator_3))
-print(next(generator_3))
-print(next(generator_3))
-print(next(generator_3))
-print(next(generator_3))
+# generator_3 = card_number_generator(10, 9)
+#
+# print(next(generator_3))
+# print(next(generator_3))
+# print(next(generator_3))
+# print(next(generator_3))
+# print(next(generator_3))
+# print(next(generator_3))
+# print(next(generator_3))

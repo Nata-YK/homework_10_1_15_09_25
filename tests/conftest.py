@@ -39,7 +39,7 @@ def dictionary_executed() -> List[dict]:
 
 
 @pytest.fixture
-def dictionary_for_generator_filter_by_currency_1() -> List[str]:
+def dictionary_for_generator_filter_by_currency_1() -> List[dict]:
     return {
         "id": 939719570,
         "state": "EXECUTED",
@@ -52,7 +52,7 @@ def dictionary_for_generator_filter_by_currency_1() -> List[str]:
 
 
 @pytest.fixture
-def dictionary_for_generator_filter_by_currency_2() -> List[str]:
+def dictionary_for_generator_filter_by_currency_2() -> List[dict]:
     return {
         "id": 142264268,
         "state": "EXECUTED",
@@ -116,5 +116,5 @@ def dict_for_test() -> List[dict]:
 
 
 @pytest.fixture
-def dict_for_test_empty() -> List[str]:
+def dict_for_test_empty() -> List[dict]:
     return []
