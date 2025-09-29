@@ -8,25 +8,23 @@ def filter_by_currency(dict_for_test: List[dict], forex: Union[str] = "USD") -> 
     ной (например, USD).
     """
 
-    if not dict_for_test or dict_for_test == []:
+    if not dict_for_test:
         print("Отсутствует итерируемый объект.")
     else:
         for k in dict_for_test:
-            if k.get("operationAmount", {}).get("currency", {}).get("name") == forex:
+            if k.get("operationAmount", {}).get("currency", {}).get("code") == forex:
                 yield k
-            elif k.get("operationAmount", {}).get("currency", {}).get("name") != forex:
-                print("Информация о валюте отсутствует в строке.")
 
 
 def transaction_descriptions(dict_for_test: List[dict]) -> Generator[Any, Any, None]:
     """
     Функция, которая принимает список словарей с транзакциями и возвращает описание каждой операции по очереди.
     """
-    if dict_for_test != []:
+    if not dict_for_test:
+        print("Отсутствует итерируемый объект.")
+    else:
         for k in dict_for_test:
             yield k.get("description")
-    else:
-        print("Отсутствует итерируемый объект.")
 
 
 def card_number_generator(start: Union[int] = 1, stop: Union[int] = 9999999999999999) -> Generator[Any, Any, None]:

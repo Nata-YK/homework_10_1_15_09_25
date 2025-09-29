@@ -1,30 +1,19 @@
 from typing import List
 
+import pytest
+
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 def test_filter_by_currency(
-    dictionary_for_generator_filter_by_currency_1: List[str],
-    dictionary_for_generator_filter_by_currency_2: List[str],
-    dict_for_test: List[dict],
-    dict_for_test_empty: List[dict],
+    dictionary_for_generator_filter_by_currency_1: list[str],
+    dict_for_test: list[dict],
+    dict_for_test_empty: list[dict],
 ) -> None:
-    generator_filter_by_currency_ = filter_by_currency(dict_for_test, forex="USD")
     generator_filter_by_currency = filter_by_currency(dict_for_test)
-    generator_filter_by_currency_currency = filter_by_currency(dict_for_test, forex="EURO")
     generator_filter_by_currency_empty = filter_by_currency(dict_for_test_empty)
-    assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_1
-    assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_2
-    assert next(generator_filter_by_currency) == dictionary_for_generator_filter_by_currency_1
-    assert next(generator_filter_by_currency) == dictionary_for_generator_filter_by_currency_2
-    try:
-        next(generator_filter_by_currency_empty)
-    except StopIteration:
-        print("Отсутствует итерируемый объект.")
-    try:
-        next(generator_filter_by_currency_currency)
-    except StopIteration:
-        print("Информация о валюте отсутствует в строке.")
+    assert list(generator_filter_by_currency) == dictionary_for_generator_filter_by_currency_1
+    assert list(generator_filter_by_currency_empty) == []
 
 
 def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty: List[dict]) -> None:
@@ -33,10 +22,7 @@ def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty
     assert next(generator_transaction_descriptions) == "Перевод организации"
     assert next(generator_transaction_descriptions) == "Перевод со счета на счет"
     assert next(generator_transaction_descriptions) == "Перевод со счета на счет"
-    try:
-        next(generator_empty)
-    except StopIteration:
-        print("Отсутствует итерируемый объект.")
+    assert list(generator_empty) == []
 
 
 def test_card_number_generator() -> None:
