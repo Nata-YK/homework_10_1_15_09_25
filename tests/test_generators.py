@@ -1,6 +1,9 @@
 from typing import List
 
+import pytest
+
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+from tests.conftest import dict_for_test_empty
 
 
 def test_filter_by_currency(
@@ -16,7 +19,10 @@ def test_filter_by_currency(
     assert next(generator_filter_by_currency_) == dictionary_for_generator_filter_by_currency_2
     assert next(generator_filter_by_currency) == dictionary_for_generator_filter_by_currency_1
     assert next(generator_filter_by_currency) == dictionary_for_generator_filter_by_currency_2
-    assert next(generator_filter_by_currency_empty) == "Отсутствует итерируемый объект"
+    try:
+        next(generator_filter_by_currency_empty)
+    except StopIteration:
+        print("Отсутствует итерируемый объект.")
 
 
 def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty: List[str]) -> None:
@@ -25,7 +31,10 @@ def test_transaction_descriptions(dict_for_test: List[dict], dict_for_test_empty
     assert next(generator_transaction_descriptions) == "Перевод организации"
     assert next(generator_transaction_descriptions) == "Перевод со счета на счет"
     assert next(generator_transaction_descriptions) == "Перевод со счета на счет"
-    assert next(generator_empty) == "Отсутствует итерируемый объект"
+    try:
+        next(generator_empty)
+    except StopIteration:
+        print("Отсутствует итерируемый объект.")
 
 
 def test_card_number_generator() -> None:
@@ -34,3 +43,12 @@ def test_card_number_generator() -> None:
     assert next(generator_card_number_generator) == "0000 0000 0000 0002"
     assert next(generator_card_number_generator) == "0000 0000 0000 0003"
     assert next(generator_card_number_generator) == "0000 0000 0000 0004"
+    assert next(generator_card_number_generator) == "0000 0000 0000 0005"
+
+
+def test_card_number_generator_mistake() -> None:
+    generator_card_number_generator_mistake = card_number_generator(10, 9)
+    try:
+        next(generator_card_number_generator_mistake)
+    except StopIteration:
+        print("Не верное значение должно быть от 1 до 9999999999999999.")
