@@ -70,6 +70,7 @@ def dictionary_for_generator_filter_by_currency_1() -> list[dict]:
         },
     ]
 
+
 @pytest.fixture
 def dict_for_test() -> list[dict]:
     return [
