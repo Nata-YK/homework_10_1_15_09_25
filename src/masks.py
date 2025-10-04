@@ -15,9 +15,9 @@ def get_mask_card_number(card_number: Union[str]) -> Union[str]:
             card_widget = "".join(card_num[:4]) + " " + "".join(card_num[4:6]) + star_sp + "".join(card_num[-4:])
         return card_widget
     elif len(card_number_str) > 0:
-        return "Не вреное количество знаков, в номере карты их должно быть 16"
+        return "Incorrect number of characters, should be 16."
     else:
-        return "Вы ничего не ввели"
+        return "You haven't entered anything."
 
 
 def get_mask_account(account_number: Union[str]) -> Union[str]:
@@ -34,6 +34,6 @@ def get_mask_account(account_number: Union[str]) -> Union[str]:
             account_widget = star_spice + "".join(account_num[-4:])
         return account_widget
     elif len(account_number_str) > 0:
-        return "Не вреное количество знаков, в номере счета их должно быть 20"
+        return "Incorrect number of characters, in the account should be 20"
     else:
-        return "Вы ничего не ввели"
+        return "You haven't entered anything."

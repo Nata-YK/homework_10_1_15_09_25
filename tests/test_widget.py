@@ -27,7 +27,7 @@ with pytest.raises(IndexError):
 
 
 def test_mask_account_card_empty(card_empty: Union[str]) -> None:
-    assert mask_account_card(card_empty) == " Вы ничего не ввели"
+    assert mask_account_card(card_empty) == " You haven't entered anything."
 
 
 @pytest.mark.parametrize(
