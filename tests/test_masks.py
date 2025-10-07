@@ -12,16 +12,16 @@ def test_get_mask_account(card_account_list: Union[str], card_account_mask: Unio
 
 
 def test_get_mask_account_sign(card_empty: Union[str]) -> None:
-    assert get_mask_account(card_empty) == "Не вреное количество знаков, в номере счета их должно быть 20"
+    assert get_mask_account(card_empty) == "Incorrect number of characters, in the account should be 20"
 
 
 def test_get_mask_card_empty() -> None:
-    assert get_mask_account("") == "Вы ничего не ввели"
+    assert get_mask_account("") == "You haven't entered anything."
 
 
 def test_get_mask_card_number_sign(card_empty: Union[str]) -> None:
-    assert get_mask_card_number(card_empty) == "Не вреное количество знаков, в номере карты их должно быть 16"
+    assert get_mask_card_number(card_empty) == "Incorrect number of characters, should be 16."
 
 
 def test_get_mask_account_empty() -> None:
-    assert get_mask_card_number("") == "Вы ничего не ввели"
+    assert get_mask_card_number("") == "You haven't entered anything."

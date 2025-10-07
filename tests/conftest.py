@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Union
 
 import pytest
 
@@ -29,7 +29,7 @@ def card_empty() -> Union[str]:
 
 
 @pytest.fixture
-def dictionary_executed() -> List[dict]:
+def dictionary_executed() -> list[dict]:
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -39,7 +39,7 @@ def dictionary_executed() -> List[dict]:
 
 
 @pytest.fixture
-def dictionary_for_generator_filter_by_currency_1() -> List[dict]:
+def dictionary_for_generator_filter_by_currency_1() -> list[dict]:
     return [
         {
             "date": "2018-06-30T02:08:58.425572",
@@ -71,22 +71,8 @@ def dictionary_for_generator_filter_by_currency_1() -> List[dict]:
     ]
 
 
-# @pytest.fixture
-# def dictionary_for_generator_filter_by_currency_2() -> List[dict]:
-#     return
-#     {
-#         "id": 142264268,
-#         "state": "EXECUTED",
-#         "date": "2019-04-04T23:20:05.206878",
-#         "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
-#         "description": "Перевод со счета на счет",
-#         "from": "Счет 19708645243227258542",
-#         "to": "Счет 75651667383060284188",
-#     }
-
-
 @pytest.fixture
-def dict_for_test() -> List[dict]:
+def dict_for_test() -> list[dict]:
     return [
         {
             "id": 939719570,
@@ -137,5 +123,5 @@ def dict_for_test() -> List[dict]:
 
 
 @pytest.fixture
-def dict_for_test_empty() -> List[dict]:
+def dict_for_test_empty() -> list[dict]:
     return []
