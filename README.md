@@ -28,7 +28,7 @@ date).
     Генератор должен принимать начальное и конечное значения для генерации диапазона номеров.
 * функция-декоратор log, декоратор может логировать работу функции и ее результат как в файл, так и в консоль
 * функция read_json для чтения JSON-файла принимает путь к файлу JSON в качестве аргумента и возвращает список словарей с данными о финансовых транзакциях.
-* функция get_transaction_amount
+* функция get_transaction_amount принимает на вход одну транзакцию и возвращает сумму транзакции в рублях
 ## Kод для функции get_mask_card_number
 ```
 def get_mask_card_number(card_number: Union[str]) -> Union[str]:
@@ -111,6 +111,47 @@ def log(filename="None"):
         return time_log
     return wrapper
 ```
+## Код для функции read_json(filename)
+```
+def read_json(filename: str) -> list:
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            operations_file = json.load(f)
+            if not isinstance(operations_file, list):
+                raise TypeError("JSON-файл должен содержать список.")
+        return operations_file
+    except FileNotFoundError:
+        print(f"Ошибка: Файл не найден по пути {filename}")
+        return []
+    except json.JSONDecodeError:
+        print(f"Ошибка: Файл '{filename}' пустой.")
+        return []
+
+```
+## Код для функции get_transaction_amount(transaction)
+```
+def get_transaction_amount(transaction: Dict) -> float:
+    if "operationAmount" in transaction:
+        if transaction["operationAmount"]["currency"]["code"] == "RUB":
+            return round(float(transaction["operationAmount"]["amount"]), 2)
+        if transaction["operationAmount"]["currency"]["code"] in ["EUR", "USD"]:
+            url = f"https://api.apilayer.com/currency_data/convert"
+            payload = {
+                "to": "RUB",
+                "from": transaction["operationAmount"]["currency"]["code"],
+                "amount": transaction["operationAmount"]["amount"],
+            }
+            headers = {"apikey": API_KEY}
+            response = requests.get(url, headers=headers, params=payload)
+            status_code = response.status_code
+            result = response.json()
+            print(result)
+            if status_code == 200:
+                return round(result["result"], 2)
+            else:
+                print("Не удалось перевести валюту в рубли")
+                return status_code
+```
 ### Пример входных данных для проверки 
 1) функция get_mask_card_number()
 
@@ -149,9 +190,18 @@ def log(filename="None"):
 11) функция-декоратор log()
 Name function: sum_num Result: 30Name function: dividing error: division by zero. Inputs: (10, 0), {}
 Name function: sum_num Result: 30Name function: dividing Result: 10.0
+12) функция read_json(filename)
+[{'id': 441945886, 'state': 'EXECUTED', 'date': '2019-08-26T10:50:58.294041', 'operationAmount': {'amount': '31957.58', 'currency': {'name': 'руб.', 'code': 'RUB'}}, 'description': 'Перевод организации', 'from': 'Maestro 1596837868705199', 'to': 'Счет 64686473678894779589'}, {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364', 'operationAmount': {'amount': '8221.37', 'currency': {'name': 'USD', 'code': 'USD'}}, 'description': 'Перевод организации', 'from': 'MasterCard 7158300734726758', 'to': 'Счет 35383033474447895560'},
+13) функция get_transaction_amount(transaction)
+794466.42 
+Не удалось перевести валюту в рубли
+429
+
 ## Тесты
 1) К функциям get_mask_card_number и get_mask_account тесты написаны в тестовом файле test_masks.py, функциональный код покрыт тестами на 100%.
 2) К функциям mask_account_card и get_date тесты написаны в тестовом файле test_widget.py, функциональный код покрыт тестами на 100%.
 3) К функциям filter_by_state и sort_by_date тесты написаны в тестовом файле test_processing, функциональный код покрыт тестами на 100%.
 4) К функциям filter_by_currency, transaction_descriptions и card_number_generator тесты написаны в тестовом файле test_generators, функциональный код покрыт тестами на 100%.
-5)  К функция-декоратор log() тест написан в тестовом файле test_decorators, функциональный код покрыт тестами на 85%.
+5)  К функция-декоратор log() тест написан в тестовом файле test_decorators, функциональный код покрыт тестами на 100%.
+6) К функция read_json() тест написан в тестовом файле test_read_json, функциональный код покрыт тестами на 100%.
+7) К функция get_transaction_amount() тест написан в тестовом файле test_get_transaction_amount, функциональный код покрыт тестами на 100%.

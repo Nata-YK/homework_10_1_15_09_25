@@ -1,11 +1,10 @@
-from typing import Any
 from unittest.mock import Mock, patch
 
 from src.external_api import get_transaction_amount
 
 
 @patch("src.external_api.requests.get")
-def test_get_transaction_amount(mock_get) -> Any[float, int]:
+def test_get_transaction_amount(mock_get):
     # Создаем мок ответа
     mock_response = Mock()
     mock_response.status_code = 200

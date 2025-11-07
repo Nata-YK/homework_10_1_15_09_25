@@ -1,8 +1,7 @@
 import json
-from typing import Any
 
 
-def read_json(filename: str) -> Any[str, Any]:
+def read_json(filename: str) -> list:
     """
     Функция чтения JSON-файла принимает путь к файлу JSON в качестве аргумента и возвращает список словарей с данными
     о финансовых транзакциях.

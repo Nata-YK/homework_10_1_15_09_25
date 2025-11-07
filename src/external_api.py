@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Dict
 
 import requests
 from dotenv import load_dotenv
@@ -9,7 +9,7 @@ load_dotenv()  # Загружаем переменные из окружения
 API_KEY = os.getenv("API_KEY")
 
 
-def get_transaction_amount(transaction: Dict) -> Any[float, Any]:
+def get_transaction_amount(transaction: Dict) -> float:
     """функция принимает на вход одну транзакцию и возвращает сумму транзакции в рублях"""
     if "operationAmount" in transaction:
         if transaction["operationAmount"]["currency"]["code"] == "RUB":
