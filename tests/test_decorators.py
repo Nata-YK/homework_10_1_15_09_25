@@ -1,12 +1,9 @@
-import pytest
-
-from src.decorators import log, sum_num
+from src.decorators import log
 
 
 @log(filename=None)
 def dividing(x, y):
     return x / y
-
 
 
 def test_log(capsys):
@@ -33,6 +30,7 @@ def test_log(capsys):
 #             return Exception
 #
 # def test_log_2():
-#     with pytest.raises(Exception, match= "Name function: sum_num error: unsupported operand type(s) for +: 'int' and "
+#     with pytest.raises(Exception, match= "Name function: sum_num error: unsupported operand type(s) for +:
+#     'int' and "
 #                                          "'str'. Inputs: (1, 2, 5, 6, 7, 8, 0, '1'), {}"):
 #         sum_num(1,2,5,6,7,8,0)
