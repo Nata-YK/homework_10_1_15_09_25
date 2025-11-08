@@ -124,6 +124,7 @@ print(next(generator_3))
 
 print(" * * *" * 25)
 
-print(read_json('data/operations.json'))
-print(
-get_transaction_amount({"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}))
+# print(read_json('data/operations.json'))
+print(get_transaction_amount(
+    {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
+))

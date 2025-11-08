@@ -1,7 +1,8 @@
 import json
+from typing import Union, Any
 
 
-def read_json(filename: str) -> list:
+def read_json(filename: str) -> tuple[str, set[str]]:
     """
     Функция чтения JSON-файла принимает путь к файлу JSON в качестве аргумента и возвращает список словарей с данными
     о финансовых транзакциях.
@@ -12,9 +13,7 @@ def read_json(filename: str) -> list:
             if not isinstance(operations_file, list):
                 raise TypeError("JSON-файл должен содержать список.")
         return operations_file
-    except FileNotFoundError:
-        print(f"Ошибка: Файл не найден по пути {filename}")
-        return []
+    except FileNotFoundError or PermissionError:
+        return "Ошибка: Файл не найден по пути", {filename}
     except json.JSONDecodeError:
-        print(f"Ошибка: Файл '{filename}' пустой.")
-        return []
+        return "Ошибка: Файл пустой.", {filename}

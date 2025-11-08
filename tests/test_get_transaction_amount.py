@@ -21,7 +21,7 @@ def test_get_transaction_amount(mock_get):
     assert result == 795261.68
 
     # Проверяем, что requests.get был вызван с правильными параметрами
-    expected_url = "https://api.apilayer.com/currency_data/convert"
+    expected_url = "https://api.apilayer.com/exchangerates_data/convert"
     expected_params = {"to": "RUB", "from": "USD", "amount": "9824.07"}
 
     # Получаем фактический API_KEY из вашего модуля
