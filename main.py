@@ -1,8 +1,11 @@
 from typing import List, Union
 
+
+from src.external_api import get_transaction_amount
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
+from src.utils import read_json
 from src.widget import get_date, mask_account_card
 
 
@@ -120,3 +123,8 @@ print(next(generator_3))
 print(next(generator_3))
 
 print(" * * *" * 25)
+
+# print(read_json('data/operations.json'))
+print(get_transaction_amount(
+    {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
+))

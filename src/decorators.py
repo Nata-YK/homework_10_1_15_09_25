@@ -1,11 +1,11 @@
 from functools import wraps
-from typing import Iterable, Union, Any
+from typing import Any, Iterable, Union
 
 
-def log(filename: Union[str]="None")-> Any:
-    def wrapper(function: Any)-> Any:
+def log(filename: Union[str] = "None") -> Any:
+    def wrapper(function: Any) -> Any:
         @wraps(function)
-        def time_log(*args: list[str], **kwargs: list[dict])-> Any:
+        def time_log(*args: list[str], **kwargs: list[dict]) -> Any:
             try:
                 result = function(*args, *kwargs)
                 message = f"\nName function: {function.__name__} Result: {result}"
@@ -30,7 +30,7 @@ def log(filename: Union[str]="None")-> Any:
 
 
 @log(filename="mylog.txt")
-def sum_num(*args: Union[int|str])-> Any:
+def sum_num(*args: Union[int | str]) -> Any:
     return sum(args)
 
 
@@ -57,7 +57,7 @@ filter_by_state_1(
 
 
 @log(filename="mylog.txt")
-def dividing(x:Union[int], y: Union[int])-> float:
+def dividing(x: Union[int], y: Union[int]) -> float:
     return x / y
 
 
