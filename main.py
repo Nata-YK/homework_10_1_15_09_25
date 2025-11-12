@@ -1,12 +1,12 @@
-from typing import List, Union
+from typing import Union
 
-
-from src.external_api import get_transaction_amount
-from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+# from src.external_api import get_transaction_amount
+# from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
-from src.processing import filter_by_state, sort_by_date
+# from src.processing import filter_by_state, sort_by_date
 from src.utils import read_json
-from src.widget import get_date, mask_account_card
+
+# from src.widget import get_date, mask_account_card
 
 
 def print_hi(name: Union[str]) -> None:
@@ -122,9 +122,9 @@ if __name__ == "__main__":
 
 print(" * * *" * 25)
 
-print(get_mask_card_number("7000792289606361")) # Номер карты имеет 16 цифр
-print(get_mask_account("70007922896063616541")) # Номер счёта имеет 20 цифр
-print(read_json('data/operations.json'))
+print(get_mask_card_number("7000792289606361"))  # Номер карты имеет 16 цифр
+print(get_mask_account("70007922896063616541"))  # Номер счёта имеет 20 цифр
+print(read_json("data/operations.json"))
 
 # print(get_transaction_amount(
 #     {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
