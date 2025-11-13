@@ -28,6 +28,7 @@ def get_transaction_amount(transaction: Dict) -> float | str:
             if status_code == 200:
                 return round(result["result"], 2)
             else:
-                return "Не удалось перевести валюту в рубли", {status_code}
+                return f"Не удалось перевести валюту в рубли. Статус: {status_code}"
+        return "Неизвестная валюта"
     else:
         return "Список отсутствует"

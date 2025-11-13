@@ -1,16 +1,16 @@
 from typing import Union
 
+from src.external_api import get_transaction_amount
+
 # from src.external_api import get_transaction_amount
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
+
 # from src.processing import filter_by_state, sort_by_date
 from src.utils import read_json
 
-# from src.widget import get_date, mask_account_card
-
 
 def print_hi(name: Union[str]) -> None:
-
     print(f"Hi, {name}")
 
 
@@ -126,6 +126,18 @@ print(get_mask_card_number("7000792289606361"))  # Номер карты име�
 print(get_mask_account("70007922896063616541"))  # Номер счёта имеет 20 цифр
 print(read_json("data/operations.json"))
 
-# print(get_transaction_amount(
-#     {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
-# ))
+# print(get_transaction_amount({"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency":
+# {"code": "USD"}}}))
+print(
+    get_transaction_amount(
+        {
+            "id": 41428829,
+            "state": "EXECUTED",
+            "date": "2019-07-03T18:35:29.512364",
+            "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод организации",
+            "from": "MasterCard 7158300734726758",
+            "to": "Счет 35383033474447895560",
+        }
+    )
+)
