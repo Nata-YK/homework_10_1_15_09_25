@@ -10,7 +10,7 @@ def log(filename: Union[str] = "None") -> Any:
                 result = function(*args, *kwargs)
                 message = f"\nName function: {function.__name__} Result: {result}"
                 if filename:
-                    with open(filename, "a") as f:
+                    with open(filename, "w") as f:
                         f.write(message)
                 else:
                     print(message)
