@@ -157,6 +157,8 @@ data = [
         "description": "Перевод организации",
     }
 ]
+print(25 * "~**~")
 print(read_csv_file("data/transactions.csv"))
+print(25 * "~")
 # {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
 print(read_xlsx_file("data/transactions_excel.xlsx"))

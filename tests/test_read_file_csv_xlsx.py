@@ -29,6 +29,9 @@ def test_read_csv_file(mock_open: Any) -> None:
     ]
     assert result == expected
 
+def test_read_scv_file_not_file() -> None:
+    file_path = os.path.join("data", "transactions..csv")
+    assert read_csv_file(file_path) == f"Ошибка: файл {file_path} не найден по пути"
 
 @patch("pandas.read_excel")
 def test_read_xlsx_file(mock_get: Any, transactions: Dict) -> None:
