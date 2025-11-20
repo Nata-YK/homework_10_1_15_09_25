@@ -1,9 +1,14 @@
 from typing import Union
 
+import pandas as pd
+
 from src.external_api import get_transaction_amount
+
 # from src.external_api import get_transaction_amount
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
+from src.read_file_csv_xlsx import read_csv_file, read_xlsx_file
+
 # from src.processing import filter_by_state, sort_by_date
 from src.utils import read_json
 
@@ -119,23 +124,39 @@ if __name__ == "__main__":
 # print(next(generator_3))
 
 print(" * * *" * 25)
-
-print(get_mask_card_number("7000792289606361"))  # Номер карты имеет 16 цифр
-print(get_mask_account("70007922896063616541"))  # Номер счёта имеет 20 цифр
-print(read_json("data/operations.json"))
-
+#
+# print(get_mask_card_number("7000792289606361"))  # Номер карты имеет 16 цифр
+# print(get_mask_account("70007922896063616541"))  # Номер счёта имеет 20 цифр
+# print(read_json("data/operations.json"))
+#
 # print(get_transaction_amount({"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency":
 # {"code": "USD"}}}))
-print(
-    get_transaction_amount(
-        {
-            "id": 41428829,
-            "state": "EXECUTED",
-            "date": "2019-07-03T18:35:29.512364",
-            "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
-            "description": "Перевод организации",
-            "from": "MasterCard 7158300734726758",
-            "to": "Счет 35383033474447895560",
-        }
-    )
-)
+# print(
+#     get_transaction_amount(
+#         {
+#             "id": 41428829,
+#             "state": "EXECUTED",
+#             "date": "2019-07-03T18:35:29.512364",
+#             "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
+#             "description": "Перевод организации",
+#             "from": "MasterCard 7158300734726758",
+#             "to": "Счет 35383033474447895560",
+#         }
+#     )
+# )
+data = [
+    {
+        "id": "650703",
+        "state": "EXECUTED",
+        "date": "2023-09-05T11:30:32Z",
+        "amount": "16210",
+        "currency_name": "Sol",
+        "currency_code": "PEN",
+        "from": "Счет 58803664561298323391",
+        "to": "Счет 39745660563456619397",
+        "description": "Перевод организации",
+    }
+]
+# print(read_csv_file("data/transactions.csv"))
+# {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
+print(read_xlsx_file("data/transactions_excel.xlsx"))
