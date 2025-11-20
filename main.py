@@ -1,8 +1,6 @@
 from typing import Union
 
-
 from src.external_api import get_transaction_amount
-
 # from src.external_api import get_transaction_amount
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
