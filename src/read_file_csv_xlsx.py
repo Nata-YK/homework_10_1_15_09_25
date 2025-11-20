@@ -1,10 +1,10 @@
 import csv
-from typing import Dict
+from typing import Any
 
 import pandas as pd
 
 
-def read_csv_file(data_file_csv: str) -> Dict:
+def read_csv_file(data_file_csv: str) -> Any:
     """
     Функция  для считывания финансовых операций из CSV принимает путь к файлу CSV в качестве аргумента.
     """
@@ -23,7 +23,7 @@ def read_csv_file(data_file_csv: str) -> Dict:
         return f"Ошибка: Файл {data_file_csv} {ex}."
 
 
-def read_xlsx_file(data_file_xlsx) -> Dict:
+def read_xlsx_file(data_file_xlsx: str) -> Any:
     """
     Функция  для считывания финансовых операций из Excel  принимает путь к Excel файлу в качестве аргумента.
     """

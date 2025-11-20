@@ -128,7 +128,7 @@ def dict_for_test_empty() -> list[dict]:
 
 
 @pytest.fixture
-def transactions():
+def transactions() -> list[dict]:
     return [
         {
             "id": 650703.0,
