@@ -1,23 +1,23 @@
 # My homework from 05/10/25
 ## В модулях:
-### masks
+### masks.py
 * функция get_mask_card_number, которая принимает номер карты, а выводит только первые 6 цифр карты и последние 4,
     а вместо остальных ставит **(звездочки)
 * функция get_mask_account,принимает номер счета, а выводит только последние 4 цифры,
     а вместо последних 5 и 6 цифр ставит **(звездочки)
-### widget
+### widget.py
 * функция mask_account_card, которая функция принимает на вход строку для маскировки номера карты/счета и используются 
 ранее написанные функции get_mask_card_number и get_mask_account.
 * функция get_date, которая принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407" и возвращает 
 строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
-### processing
+### processing.py
 * функция filter_by_state, которая принимает список словарей и опционально значение для ключа 
 state  (по умолчанию 'EXECUTED'). Функция возвращает новый список словарей, содержащий только те словари, у которых ключ 
 state соответствует указанному значению;
 * функция sort_by_date, которая принимает список словарей и необязательный параметр, задающий порядок сортировки 
 (по умолчанию — убывание). Функция должна возвращать новый список, отсортированный по дате (
 date).
-###
+### generators.py
 * функция filter_by_currency, которая принимает на вход список словарей, представляющих транзакции.
     Функция должна возвращать итератор, который поочередно выдает транзакции, где валюта операции соответствует задан-
     ной (например, USD).
@@ -26,9 +26,15 @@ date).
     X — цифра номера карты. Генератор может сгенерировать номера карт в заданном диапазоне от 0000 0000 0000 0001 до
     9999 9999 9999 9999.
     Генератор должен принимать начальное и конечное значения для генерации диапазона номеров.
+### decorators.py
 * функция-декоратор log, декоратор может логировать работу функции и ее результат как в файл, так и в консоль
+### utils.py
 * функция read_json для чтения JSON-файла принимает путь к файлу JSON в качестве аргумента и возвращает список словарей с данными о финансовых транзакциях.
+### external_api.py
 * функция get_transaction_amount принимает на вход одну транзакцию и возвращает сумму транзакции в рублях
+### read_file_csv_xlsx.py
+* функция read_csv_file для считывания финансовых операций из CSV принимает путь к файлу CSV в качестве аргумента.
+* функция read_xlsx_file для считывания финансовых операций из Excel  принимает путь к Excel файлу в качестве аргумента.
 ## Kод для функции get_mask_card_number
 ```
 def get_mask_card_number(card_number: Union[str]) -> Union[str]:
@@ -152,6 +158,35 @@ def get_transaction_amount(transaction: Dict) -> float:
                 print("Не удалось перевести валюту в рубли")
                 return status_code
 ```
+## Код для функции read_csv_file(data_file_csv):
+```
+    try:
+        result = []
+        with open(data_file_csv, encoding="utf-8") as file_csv:
+            data_file_csv_read = csv.DictReader(file_csv, delimiter=";")
+            for row in data_file_csv_read:
+                result.append(row)
+        return result
+    except FileNotFoundError:
+        return f"Ошибка: файл {data_file_csv} не найден по пути"
+    except PermissionError:
+        return f"Ошибка: к файлу {data_file_csv} нет прав с доступом"
+    except Exception as ex:
+        return f"Ошибка: Файл {data_file_csv} {ex}."
+   ```
+## Код для функции read_xlsx_file(data_file_xlsx):
+```
+    try:
+        data_file_xlsx_read = pd.read_excel(data_file_xlsx)
+        result_dict = data_file_xlsx_read.to_dict(orient="records")
+        return result_dict
+    except FileNotFoundError:
+        return f"Ошибка: файл {data_file_xlsx} не найден по пути"
+    except PermissionError:
+        return f"Ошибка: к файлу {data_file_xlsx} нет прав с доступом"
+    except Exception as ex:
+        return f"Ошибка: Файл {data_file_xlsx} {ex}."
+```
 ### Пример входных данных для проверки 
 1) функция get_mask_card_number()
 
@@ -196,12 +231,18 @@ Name function: sum_num Result: 30Name function: dividing Result: 10.0
 794466.42 
 Не удалось перевести валюту в рубли
 429
+14) функция read_csv_file(data_file_csv):
+[{'id': '650703', 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': '16210', 'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}, {'id': '3598919', 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': '29740', 'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065', 'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}, {'id': '593027', 'state': 'CANCELED', 'date': '2023-07-22T05:02:01Z', 'amount': '30368', 'currency_name': 'Shilling', 'currency_code': 'TZS', 'from': 'Visa 1959232722494097', 'to': 'Visa 6804119550473710', 'description': 'Перевод с карты на карту'}]
+15) функция read_xlsx_file(data_file_xlsx):
+[{'id': 650703.0, 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': 16210.0, 'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}, {'id': 3598919.0, 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': 29740.0, 'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065', 'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}, {'id': 593027.0, 'state': 'CANCELED', 'date': '2023-07-22T05:02:01Z', 'amount': 30368.0, 'currency_name': 'Shilling', 'currency_code': 'TZS', 'from': 'Visa 1959232722494097', 'to': 'Visa 6804119550473710', 'description': 'Перевод с карты на карту'},]
 
 ## Тесты
 1) К функциям get_mask_card_number и get_mask_account тесты написаны в тестовом файле test_masks.py, функциональный код покрыт тестами на 100%.
 2) К функциям mask_account_card и get_date тесты написаны в тестовом файле test_widget.py, функциональный код покрыт тестами на 100%.
 3) К функциям filter_by_state и sort_by_date тесты написаны в тестовом файле test_processing, функциональный код покрыт тестами на 100%.
 4) К функциям filter_by_currency, transaction_descriptions и card_number_generator тесты написаны в тестовом файле test_generators, функциональный код покрыт тестами на 100%.
-5)  К функция-декоратор log() тест написан в тестовом файле test_decorators, функциональный код покрыт тестами на 100%.
-6) К функция read_json() тест написан в тестовом файле test_read_json, функциональный код покрыт тестами на 100%.
-7) К функция get_transaction_amount() тест написан в тестовом файле test_get_transaction_amount, функциональный код покрыт тестами на 100%.
+5)  К функция-декоратор log() тест написан в тестовом файле test_decorators, функциональный код покрыт тестами на 79%.
+6) К функция read_json() тест написан в тестовом файле test_read_json, функциональный код покрыт тестами на 61%.
+7) К функция get_transaction_amount() тест написан в тестовом файле test_get_transaction_amount, функциональный код покрыт тестами на 82%.
+8)  К функция read_csv_file(data_file_csv) тест написан в тестовом файле test_csv_file, функциональный код покрыт тестами на 71%.
+9)  К функция read_xlsx_file(data_file_xlsx) тест написан в тестовом файле test_xlsx_file, функциональный код покрыт тестами на 71%.
