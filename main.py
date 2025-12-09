@@ -1,6 +1,7 @@
 from typing import Union
 
 from src.external_api import get_transaction_amount
+from src.libraries_re_collections import look_to_dictionary, count_transactions
 # from src.external_api import get_transaction_amount
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 from src.masks import get_mask_account, get_mask_card_number
@@ -122,41 +123,47 @@ print(" * * *" * 25)
 
 print(get_mask_card_number("7000792289606361"))  # Номер карты имеет 16 цифр
 print(get_mask_account("70007922896063616541"))  # Номер счёта имеет 20 цифр
-print(read_json("data/operations.json"))
+# print(read_json("data/operations.json"))
 
-print(
-    get_transaction_amount(
-        {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
-    )
-)
-print(
-    get_transaction_amount(
-        {
-            "id": 41428829,
-            "state": "EXECUTED",
-            "date": "2019-07-03T18:35:29.512364",
-            "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
-            "description": "Перевод организации",
-            "from": "MasterCard 7158300734726758",
-            "to": "Счет 35383033474447895560",
-        }
-    )
-)
-data = [
-    {
-        "id": "650703",
-        "state": "EXECUTED",
-        "date": "2023-09-05T11:30:32Z",
-        "amount": "16210",
-        "currency_name": "Sol",
-        "currency_code": "PEN",
-        "from": "Счет 58803664561298323391",
-        "to": "Счет 39745660563456619397",
-        "description": "Перевод организации",
-    }
-]
+# print(
+#     get_transaction_amount(
+#         {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
+#     )
+# )
+# print(
+#     get_transaction_amount(
+#         {
+#             "id": 41428829,
+#             "state": "EXECUTED",
+#             "date": "2019-07-03T18:35:29.512364",
+#             "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
+#             "description": "Перевод организации",
+#             "from": "MasterCard 7158300734726758",
+#             "to": "Счет 35383033474447895560",
+#         }
+#     )
+# )
+# data = [
+#     {
+#         "id": "650703",
+#         "state": "EXECUTED",
+#         "date": "2023-09-05T11:30:32Z",
+#         "amount": "16210",
+#         "currency_name": "Sol",
+#         "currency_code": "PEN",
+#         "from": "Счет 58803664561298323391",
+#         "to": "Счет 39745660563456619397",
+#         "description": "Перевод организации",
+#     }
+# ]
 print(25 * "~**~")
-print(read_csv_file("data/transactions.csv"))
-print(25 * "~")
-# {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
-print(read_xlsx_file("data/transactions_excel.xlsx"))
+# print(read_csv_file("data/transactions.csv"))
+# print(25 * "~")
+# # {"state": "EXECUTED", "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}}
+# print(read_xlsx_file("data/transactions_excel.xlsx"))
+
+result = look_to_dictionary(dict_filter_by_currency, 'CANCELED')
+print(result)
+
+class_list = "Перевод организации"
+print(count_transactions(dict_filter_by_currency, class_list))
