@@ -12,7 +12,8 @@ def filter_by_currency(dict_for_test: List[dict], forex: Union[str] = "USD") -> 
         print("Отсутствует итерируемый объект.")
     else:
         for k in dict_for_test:
-            if k.get("operationAmount", {}).get("currency", {}).get("code") == forex:
+            currency_code = k.get("operationAmount", {}).get("currency", {}).get("code") or k.get("currency_code")
+            if currency_code == forex:
                 yield k
 
 
