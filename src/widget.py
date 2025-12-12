@@ -1,4 +1,8 @@
+import re
+import csv
 from typing import Union
+
+import pandas as pd
 
 from src.masks import get_mask_account, get_mask_card_number
 
@@ -28,3 +32,28 @@ def get_date(listing_date: Union[str]) -> Union[str]:
         return "".join(data_[8:10]) + point + "".join(data_[5:7]) + point + "".join(data_[:4])
     else:
         return "Внесите данные"
+
+
+patterns = [
+    re.compile(r'\d{20}'), # Счет 20 цифр
+    re.compile(r'\d{16}'), # Карта 16 цифр
+    ]
+
+def format_card_account(transactions_filter):
+    """
+        Еще функция принимает на вход строку для маскировки номера карты/счета
+    """
+    for wid in transactions_filter:
+        for pattern in patterns:
+            number = pattern.search(wid['from']) or pattern.search(wid['to'])
+            if number: # проверяем, что number не None
+                if pattern.pattern == r'\d{20}':
+                    mask_card = '*' * 16 + number.group()[-4:] # .group() позволяет получить строку, соответствующую найденному шаблону
+                    return mask_card
+                elif pattern.pattern == r'\d{16}':
+                    mask_account = number.group()[:3] + " " + number.group()[4:6] +'** **** '+ number.group()[-4:]
+                    return mask_account
+
+        return 'Не найдено ни одной транзакции, подходящей под ваши условия фильтрации'
+
+

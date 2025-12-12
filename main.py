@@ -1,7 +1,7 @@
-from collections import Counter, defaultdict
+import re
+
 from dateutil.parser import parse
 
-from src.external_api import get_transaction_amount
 from src.generators import filter_by_currency
 from src.libraries_collections import look_to_dictionary, count_transactions, look_date
 from src.processing import filter_by_state, sort_by_date
@@ -9,6 +9,9 @@ from src.read_file_csv_xlsx import read_csv_file, read_xlsx_file
 from src.utils import read_json
 
 import os.path
+
+from src.widget import mask_account_card, format_card_account
+
 folder = 'data'
 file_json = 'operations.json'
 file_csv = 'transactions.csv'
@@ -99,9 +102,13 @@ def look_for():
         print('Распечатываю итоговый список транзакций\nНе найдено ни одной транзакции, подходящей под ваши условия фильтрации')
 
 
+
 def print_total():
     print_t = look_for()
+    func_mask = format_card_account(print_t)
     for d in print_t:
+        d["to"] = func_mask
+        d["from"] = func_mask
         date_ob = parse(d["date"])
         formatted_date = date_ob.strftime("%d.%m.%Y")
         if d["description"] == "Открытие вклада":
@@ -109,6 +116,9 @@ def print_total():
         elif d:
             arrow = "->"
             print(f'{formatted_date} {d.get("description")} \n{d["from"]} {arrow} {d["to"]}\nСумма: {d["amount"]} {d["currency_code"]}')
+
+
+
 
 if __name__ == "__main__":
     print(print_total())

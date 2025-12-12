@@ -24,6 +24,8 @@ def look_to_dictionary(dict_list, string):
         return list_dictionary
     except Exception as e:
         return {e}
+
+
 def count_transactions(dict_list, class_list):
     """
      Функция, которая будет принимать список словарей с данными о банковских операциях и список категорий операций,
