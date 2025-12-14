@@ -2,7 +2,7 @@ from typing import Union
 
 import pytest
 
-from src.widget import get_date, mask_account_card, format_card_account
+from src.widget import format_card_account, get_date, mask_account_card
 
 
 @pytest.mark.parametrize(
@@ -63,11 +63,11 @@ def test_format_card_account():
             "to": "Visa 6804 11** **** 3710",
             "description": "Перевод с карты на карту",
         },
-    {
-        "from": "Express 8025 48** **** 0082",
+        {
+            "from": "Express 8025 48** **** 0082",
             "to": "Discover 7955 89** **** 2061",
             "description": "Перевод с карты на карту",
-    },
+        },
     ]
 
     assert (
@@ -88,11 +88,11 @@ def test_format_card_account():
                     "to": "Visa 6804119550473710",
                     "description": "Перевод с карты на карту",
                 },
-        {
-            "from": "American Express 8025488368550082",
-            "to": "Discover 7955892722142061",
-            "description": "Перевод с карты на карту",
-        }
+                {
+                    "from": "American Express 8025488368550082",
+                    "to": "Discover 7955892722142061",
+                    "description": "Перевод с карты на карту",
+                },
             ]
         )
         == expected_result

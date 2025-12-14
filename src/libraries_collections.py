@@ -1,8 +1,7 @@
-from ast import parse
-from dateutil.parser import parse
 import re
+from ast import parse
 from collections import Counter
-from datetime import datetime
+from dateutil.parser import parse
 
 
 def look_to_dictionary(dict_list, string):
@@ -28,7 +27,8 @@ def look_to_dictionary(dict_list, string):
 def count_transactions(dict_list, class_list):
     """
     Функция, которая будет принимать список словарей с данными о банковских операциях и список категорий операций,
-    а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой категории.
+    а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой кате-
+    гории.
     """
     filtered_transactions = []  # Создаем пустой список
     for key in dict_list:  # Итерируемся по списку словарей
