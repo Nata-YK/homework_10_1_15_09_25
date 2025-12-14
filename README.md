@@ -10,6 +10,8 @@
 ранее написанные функции get_mask_card_number и get_mask_account.
 * функция get_date, которая принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407" и возвращает 
 строку с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
+* функция format_card_account, функция которая принимает список транзакций и маскирует номера карт/счетов, через 
+Regular expression operations.
 ### processing.py
 * функция filter_by_state, которая принимает список словарей и опционально значение для ключа 
 state  (по умолчанию 'EXECUTED'). Функция возвращает новый список словарей, содержащий только те словари, у которых ключ 
@@ -35,6 +37,9 @@ date).
 ### read_file_csv_xlsx.py
 * функция read_csv_file для считывания финансовых операций из CSV принимает путь к файлу CSV в качестве аргумента.
 * функция read_xlsx_file для считывания финансовых операций из Excel  принимает путь к Excel файлу в качестве аргумента.
+### libraries_collections.py
+* функция look_to_dictionary будет принимать список словарей с данными о банковских операциях и строку поиска, а возвращать список словарей, у которых в описании есть данная строка.
+* функция count_transactions будет принимать список словарей с данными о банковских операциях и список категорий операций, а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой категории.
 ## Kод для функции get_mask_card_number
 ```
 def get_mask_card_number(card_number: Union[str]) -> Union[str]:
@@ -187,6 +192,41 @@ def get_transaction_amount(transaction: Dict) -> float:
     except Exception as ex:
         return f"Ошибка: Файл {data_file_xlsx} {ex}."
 ```
+## Код функции look_to_dictionary(dict_list, string)
+```
+    try:
+        pattern = re.compile(re.escape(string))  # Используем re.escape для поиска точного совпадения
+        list_dictionary = []
+        for dct in dict_list:  # Итерируемся по списку словарей
+            for key, value in dct.items():  # Итерируемся по каждому словарю
+                if isinstance(value, str) and pattern.search(value):
+                    list_dictionary.append(dct)
+                    if list_dictionary == []:
+                        return "Значения нет в списке"
+                        break  # Добавляем в словарь или прерываем внутренний цикл
+        return list_dictionary
+    except Exception as e:
+        return {e}
+```
+## Код функции count_transactions(dict_list, class_list)
+```
+filtered_transactions = []  # Создаем пустой список
+    for key in dict_list:  # Итерируемся по списку словарей
+        if (
+            key.get("description") == class_list
+        ):  # Сравниваем заданное значение "class_list" с заданным классом "description"
+            filtered_transactions.append(
+                key["description"]
+            )  # Если сравнение верно, добавляем данный ключ в новый список
+    return Counter(filtered_transactions)  # для подсчета количества банковских операций воспользуемся Counter
+
+
+def look_date(dict_list):
+    for item in dict_list:
+        date_obj = parse(item["date"])
+        formatted_date = date_obj.strftime("%d.%m.%Y")
+        return formatted_date
+```
 ### Пример входных данных для проверки 
 1) функция get_mask_card_number()
 
@@ -231,18 +271,40 @@ Name function: sum_num Result: 30Name function: dividing Result: 10.0
 794466.42 
 Не удалось перевести валюту в рубли
 429
-14) функция read_csv_file(data_file_csv):
+14) функция read_csv_file(data_file_csv)
 [{'id': '650703', 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': '16210', 'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}, {'id': '3598919', 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': '29740', 'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065', 'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}, {'id': '593027', 'state': 'CANCELED', 'date': '2023-07-22T05:02:01Z', 'amount': '30368', 'currency_name': 'Shilling', 'currency_code': 'TZS', 'from': 'Visa 1959232722494097', 'to': 'Visa 6804119550473710', 'description': 'Перевод с карты на карту'}]
-15) функция read_xlsx_file(data_file_xlsx):
+15) функция read_xlsx_file(data_file_xlsx)
 [{'id': 650703.0, 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': 16210.0, 'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}, {'id': 3598919.0, 'state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': 29740.0, 'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065', 'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}, {'id': 593027.0, 'state': 'CANCELED', 'date': '2023-07-22T05:02:01Z', 'amount': 30368.0, 'currency_name': 'Shilling', 'currency_code': 'TZS', 'from': 'Visa 1959232722494097', 'to': 'Visa 6804119550473710', 'description': 'Перевод с карты на карту'},]
-
+16) функция look_to_dictionary(dict_list, string)
+[{'id': 650703.0, 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': 16210.0, 'currency_name': 'Sol', 'currency_code': 'PE
+N', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}, {'id': 3598919.0, '
+state': 'EXECUTED', 'date': '2020-12-06T23:00:58Z', 'amount': 29740.0, 'currency_name': 'Peso', 'currency_code': 'COP', 'from': 'Discover 3172601889670065', 'to': 'Discover 0720428384694643', 'description': 'Перевод с карты на карту'}]
+17) функция count_transactions(dict_list, class_list)
+Counter({'Перевод организации': 1})
+18) функция format_card_account(transactions_filter)
+[{'id': 360577236, 'state': 'EXECUTED', 'date': '2019-09-07T07:20:13.889610', 'operationAmount': {'amount': '18536.73', 'curren
+cy': {'name': 'руб.', 'code': 'RUB'}}, 'description': 'Перевод с карты на карту', 'from': 'Maestro 4284 34** **** 4246', 'to': 
+'МИР 1582 47** **** 7301'}, {'id': 917824439, 'state': 'EXECUTED', 'date': '2019-07-18T12:27:13.355343', 'operationAmount': {'a
+mount': '82139.20', 'currency': {'name': 'руб.', 'code': 'RUB'}}, 'description': 'Перевод с карты на карту', 'from': 'Platinum 
+6942 69** **** 7688', 'to': 'МИР 2956 60** **** 3342'}, {'id': 509552992, 'state': 'EXECUTED', 'date': '2019-04-19T12:02:30.129
+240', 'operationAmount': {'amount': '81513.74', 'currency': {'name': 'руб.', 'code': 'RUB'}}, 'description': 'Перевод с карты н
+а карту', 'from': 'Maestro 9171 98** **** 9925', 'to': 'МИР 2052 80** **** 4182'}, {'id': 484201274, 'state': 'EXECUTED', 'date
+': '2019-04-11T23:10:21.514616', 'operationAmount': {'amount': '62621.51', 'currency': {'name': 'руб.', 'code': 'RUB'}}, 'descr
+iption': 'Перевод с карты на карту', 'from': 'МИР 8193 81** **** 8899', 'to': 'МИР 9425 59** **** 4146'}, {'id': 232222017, 'st
+ate': 'EXECUTED', 'date': '2018-07-06T22:32:10.495465', 'operationAmount': {'amount': '37160.27', 'currency': {'name': 'руб.', 
+'code': 'RUB'}}, 'description': 'Перевод с карты на карту', 'from': 'Classic 4062 74** **** 4804', 'to': 'Maestro 8602 24** ***
+* 1155'}, {'id': 407169720, 'state': 'EXECUTED', 'date': '2018-02-03T14:52:08.093722', 'operationAmount': {'amount': '67011.26'
+, 'currency': {'name': 'руб.', 'code': 'RUB'}}, 'description': 'Перевод с карты на карту', 'from': 'MasterCard 4047 67** **** 3225', 'to': 'Maestro 3806 65** **** 3662'}]
 ## Тесты
-1) К функциям get_mask_card_number и get_mask_account тесты написаны в тестовом файле test_masks.py, функциональный код покрыт тестами на 100%.
-2) К функциям mask_account_card и get_date тесты написаны в тестовом файле test_widget.py, функциональный код покрыт тестами на 100%.
-3) К функциям filter_by_state и sort_by_date тесты написаны в тестовом файле test_processing, функциональный код покрыт тестами на 100%.
-4) К функциям filter_by_currency, transaction_descriptions и card_number_generator тесты написаны в тестовом файле test_generators, функциональный код покрыт тестами на 100%.
-5)  К функция-декоратор log() тест написан в тестовом файле test_decorators, функциональный код покрыт тестами на 79%.
-6) К функция read_json() тест написан в тестовом файле test_read_json, функциональный код покрыт тестами на 61%.
-7) К функция get_transaction_amount() тест написан в тестовом файле test_get_transaction_amount, функциональный код покрыт тестами на 82%.
-8)  К функция read_csv_file(data_file_csv) тест написан в тестовом файле test_csv_file, функциональный код покрыт тестами на 71%.
-9)  К функция read_xlsx_file(data_file_xlsx) тест написан в тестовом файле test_xlsx_file, функциональный код покрыт тестами на 71%.
+1) К функциям get_mask_card_number и get_mask_account тесты написаны в модуле test_masks.py, функциональный код покрыт тестами на 100%.
+2) К функциям mask_account_card и get_date тесты написаны в модуле test_widget.py, функциональный код покрыт тестами на 79%.
+3) К функциям filter_by_state и sort_by_date тесты написаны в модуле test_processing, функциональный код покрыт тестами на 100%.
+4) К функциям filter_by_currency, transaction_descriptions и card_number_generator тесты написаны в модуле test_generators.py, функциональный код покрыт тестами на 100%.
+5)  К функция-декоратор log() тест написан в модуле test_decorators.py, функциональный код покрыт тестами на 79%.
+6) К функция read_json() тест написан в модуле test_read_json.py, функциональный код покрыт тестами на 82%.
+7) К функция get_transaction_amount() тест написан в модуле test_get_transaction_amount.py, функциональный код покрыт тестами на 82%.
+8)  К функция read_csv_file(data_file_csv) тест написан в модуле test_read_file_csv_xlsx.py, функциональный код покрыт тестами на 71%.
+9)  К функция read_xlsx_file(data_file_xlsx) тест написан в модуле test_read_file_csv_xlsx.py, функциональный код покрыт тестами на 71%.
+10) К функции look_to_dictionary(dict_list, string) тест написан в модуле test_libraries_collections.py, функциональный код покрыт тестами на 76%.
+11) К функции count_transactions(dict_list, class_list) тест написан в модуле test_libraries_collections.py, функциональный код покрыт тестами на 76%.
+12) К функции format_card_account(transactions_filter) тест написан в модуле test_widget.py, функциональный код покрыт тестами на 79%.

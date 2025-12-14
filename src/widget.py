@@ -1,7 +1,6 @@
 import re
 from typing import Union
 
-
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -33,9 +32,9 @@ def get_date(listing_date: Union[str]) -> Union[str]:
 
 
 patterns = [
-    re.compile(r'(\d{20})'),  # Счет 20 цифр - группа 1
-    re.compile(r'(\w+\s\d{16})'),  # Карта 16 цифр после названия - группа 1
-    re.compile(r'([A-Za-z]+\s[A-Za-z]+)\s(\d{16})'),  # Формат "Слово Слово 16цифр" - группа 1
+    re.compile(r"(\d{20})"),  # Счет 20 цифр - группа 1
+    re.compile(r"(\w+\s\d{16})"),  # Карта 16 цифр после названия - группа 1
+    re.compile(r"([A-Za-z]+\s[A-Za-z]+)\s(\d{16})"),  # Формат "Слово Слово 16цифр" - группа 1
 ]
 
 
@@ -52,66 +51,65 @@ def format_card_account(transactions_filter):
         formatted_transaction = transaction.copy()  # Создаем копию для изменений
 
         # Обрабатываем поле 'from'
-        if transaction.get('from'):
-            masked_from = transaction['from']
+        if transaction.get("from"):
+            masked_from = transaction["from"]
             for pattern in patterns:
-                match = pattern.search(transaction['from'])
+                match = pattern.search(transaction["from"])
                 if match:
-                    if pattern.pattern == r'(\d{20})':  # Счет
+                    if pattern.pattern == r"(\d{20})":  # Счет
                         number = match.group(1)
-                        masked_from = f'Счет **{number[-4:]}'
+                        masked_from = f"Счет **{number[-4:]}"
                         break
-                    elif pattern.pattern == r'(\w+\s\d{16})':  # Карта типа "Visa 1234..."
+                    elif pattern.pattern == r"(\w+\s\d{16})":  # Карта типа "Visa 1234..."
                         full_match = match.group(1)
                         # Ищем 16 цифр
-                        card_match = re.search(r'(\d{16})', full_match)
+                        card_match = re.search(r"(\d{16})", full_match)
                         if card_match:
                             card_number = card_match.group(1)
                             # Сохраняем название карты
-                            card_name = full_match.replace(card_number, '').strip()
-                            masked_from = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
+                            card_name = full_match.replace(card_number, "").strip()
+                            masked_from = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
                         break
-                    elif pattern.pattern == r'(\d{16})':  # Формат типа "Visa Platinum 7000..."
+                    elif pattern.pattern == r"(\w+\s\w+\s\d{16})":  # Формат типа "Visa Platinum 7000..."
                         full_match = match.group(1)
                         # Ищем 16 цифр
-                        card_match = re.search(r'(\d{16})', full_match)
+                        card_match = re.search(r"(\d{16})", full_match)
                         if card_match:
                             card_number = card_match.group(1)
                             # Сохраняем название карты
-                            card_name = full_match.replace(card_number, '').strip()
-                            masked_from = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
+                            card_name = full_match.replace(card_number, "").strip()
+                            masked_from = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
                         break
-            formatted_transaction['from'] = masked_from
+            formatted_transaction["from"] = masked_from
 
         # Обрабатываем поле 'to'
-        if transaction.get('to'):
-            masked_to = transaction['to']
+        if transaction.get("to"):
+            masked_to = transaction["to"]
             for pattern in patterns:
-                match = pattern.search(transaction['to'])
+                match = pattern.search(transaction["to"])
                 if match:
-                    if pattern.pattern == r'(\d{20})':  # Счет
+                    if pattern.pattern == r"(\d{20})":  # Счет
                         number = match.group(1)
-                        masked_to = f'Счет **{number[-4:]}'
+                        masked_to = f"Счет **{number[-4:]}"
                         break
-                    elif pattern.pattern == r'(\w+\s\d{16})':  # Карта типа "Visa 1234..."
+                    elif pattern.pattern == r"(\w+\s\d{16})":  # Карта типа "Visa 1234..."
                         full_match = match.group(1)
-                        card_match = re.search(r'(\d{16})', full_match)
+                        card_match = re.search(r"(\d{16})", full_match)
                         if card_match:
                             card_number = card_match.group(1)
                             card_name = full_match.replace(card_number, "").strip()
-                            masked_to = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
+                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
                         break
-                    elif pattern.pattern == r'(\d{16})':  # Формат типа "Visa Platinum 7000..."
+                    elif pattern.pattern == r"(\w+\s\w+\s\d{16})":  # Формат типа "Visa Platinum 7000..."
                         full_match = match.group(1)
-                        card_match = re.search(r'(\d{16})', full_match)
+                        card_match = re.search(r"(\d{16})", full_match)
                         if card_match:
                             card_number = card_match.group(1)
-                            card_name = full_match.replace(card_number, '').strip()
-                            masked_to = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
+                            card_name = full_match.replace(card_number, "").strip()
+                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
                         break
-            formatted_transaction['to'] = masked_to
+            formatted_transaction["to"] = masked_to
 
         formatted_transactions.append(formatted_transaction)
 
     return formatted_transactions
-

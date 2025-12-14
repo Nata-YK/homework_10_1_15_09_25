@@ -1,6 +1,6 @@
 from collections import Counter
 
-from src.libraries_collections import look_to_dictionary, count_transactions
+from src.libraries_collections import count_transactions, look_to_dictionary
 
 
 def test_look_to_dictionary(dict_for_test: [dict]) -> None:
