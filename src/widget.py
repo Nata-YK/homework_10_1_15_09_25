@@ -1,8 +1,6 @@
 import re
-import csv
 from typing import Union
 
-import pandas as pd
 
 from src.masks import get_mask_account, get_mask_card_number
 
@@ -34,54 +32,19 @@ def get_date(listing_date: Union[str]) -> Union[str]:
         return "Внесите данные"
 
 
-# patterns = [
-#     re.compile(r'\d{20}'), # Счет 20 цифр
-#     re.compile(r'\d{16}'), # Карта 16 цифр
-#     re.compile(r'\w+\s\w\s\d{16}')
-#     ]
-#
-# def format_card_account(transactions_filter):
-#     """
-#         Еще функция принимает на вход строку для маскировки номера карты/счета
-#     """
-#     try:
-#         for wid in transactions_filter:
-#             for pattern in patterns:
-#                 number_from = pattern.findall(wid.get('from'))
-#                 number_to = pattern.findall(wid.get('to'))
-#                 for number_f in number_from:
-#                     if number_from: # проверяем, что number не None
-#                         if pattern.pattern == r'\d{20}':
-#                             mask_card = f'Счет {"*" * 16} {number_f.group()[-4:]}' # .group() позволяет получить строку, соответствующую найденному шаблону
-#                             return mask_card
-#                         elif pattern.pattern == r'\d{16}':
-#                             mask_account = number_f.group()[:4] + " " + number_f.group()[4:6] +'** **** '+ number_f.group()[-4:]
-#                             return mask_account
-#                 for number_t in number_to:
-#                     if number_to:
-#                         if pattern.pattern == r'\d{20}':
-#                             mask_card = f'Счет {"*" * 16} {number_t.group()[-4:]}' # .group() позволяет получить строку, соответствующую найденному шаблону
-#                             return mask_card
-#                         elif pattern.pattern == r'\d{16}':
-#                             mask_account = number_t.group()[:4] + " " + number_t.group()[4:6] +'** **** '+ number_t.group()[-4:]
-#                             return mask_account
-#             return 'Не найдено ни одной транзакции, подходящей под ваши условия фильтрации'
-#
-#     except AttributeError as e:
-#         print(f'Ошибка: {e}')
-
 patterns = [
     re.compile(r'(\d{20})'),  # Счет 20 цифр - группа 1
     re.compile(r'(\w+\s\d{16})'),  # Карта 16 цифр после названия - группа 1
-    re.compile(r'(\w+\s\w+\s\d{16})')  # Формат "Слово Слово 16цифр" - группа 1
+    re.compile(r'([A-Za-z]+\s[A-Za-z]+)\s(\d{16})'),  # Формат "Слово Слово 16цифр" - группа 1
 ]
+
 
 def format_card_account(transactions_filter):
     """
     Функция принимает список транзакций и маскирует номера карт/счетов
     """
     if not transactions_filter:
-        return 'Не найдено ни одной транзакции, подходящей под ваши условия фильтрации'
+        return "Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
 
     formatted_transactions = []
 
@@ -108,7 +71,7 @@ def format_card_account(transactions_filter):
                             card_name = full_match.replace(card_number, '').strip()
                             masked_from = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
                         break
-                    elif pattern.pattern == r'(\w+\s\w+\s\d{16})':  # Формат типа "Visa Platinum 7000..."
+                    elif pattern.pattern == r'(\d{16})':  # Формат типа "Visa Platinum 7000..."
                         full_match = match.group(1)
                         # Ищем 16 цифр
                         card_match = re.search(r'(\d{16})', full_match)
@@ -135,10 +98,10 @@ def format_card_account(transactions_filter):
                         card_match = re.search(r'(\d{16})', full_match)
                         if card_match:
                             card_number = card_match.group(1)
-                            card_name = full_match.replace(card_number, '').strip()
+                            card_name = full_match.replace(card_number, "").strip()
                             masked_to = f'{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
                         break
-                    elif pattern.pattern == r'(\w+\s\w+\s\d{16})':  # Формат типа "Visa Platinum 7000..."
+                    elif pattern.pattern == r'(\d{16})':  # Формат типа "Visa Platinum 7000..."
                         full_match = match.group(1)
                         card_match = re.search(r'(\d{16})', full_match)
                         if card_match:
@@ -151,3 +114,4 @@ def format_card_account(transactions_filter):
         formatted_transactions.append(formatted_transaction)
 
     return formatted_transactions
+

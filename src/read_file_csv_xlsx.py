@@ -28,9 +28,13 @@ def read_xlsx_file(data_file_xlsx: str) -> Any:
     Функция  для считывания финансовых операций из Excel  принимает путь к Excel файлу в качестве аргумента.
     """
     try:
-        data_file_xlsx_read = pd.read_excel(data_file_xlsx)
-        result_dict = data_file_xlsx_read.to_dict(orient="records")
-        return result_dict
+        if not data_file_xlsx:
+            print("Не найдено ни одной транзакции, подходящей под вашиm условия фильтрации")
+            return []
+        elif data_file_xlsx:
+            data_file_xlsx_read = pd.read_excel(data_file_xlsx)
+            result_dict = data_file_xlsx_read.to_dict(orient="records")
+            return result_dict
     except FileNotFoundError:
         return f"Ошибка: файл {data_file_xlsx} не найден по пути"
     except PermissionError:

@@ -1,6 +1,6 @@
 import os
 from typing import Any, Dict
-from unittest.mock import mock_open, patch
+from unittest.mock import mock_open, patch, Mock
 
 import pandas as pd
 
@@ -36,7 +36,7 @@ def test_read_scv_file_not_file() -> None:
 
 
 @patch("pandas.read_excel")
-def test_read_xlsx_file(mock_get: Any, transactions: Dict) -> None:
+def test_read_xlsx_file(mock_get: Mock, transactions: Dict) -> None:
     mock_get_return_value = transactions
     mock_get.return_value = pd.DataFrame(mock_get_return_value)
 

@@ -10,10 +10,10 @@ import os.path
 
 from src.widget import mask_account_card, format_card_account
 
-folder = 'data'
-file_json = 'operations.json'
-file_csv = 'transactions.csv'
-file_xlsx = 'transactions_excel.xlsx'
+folder = "data"
+file_json = "operations.json"
+file_csv = "transactions.csv"
+file_xlsx = "transactions_excel.xlsx"
 file_path_json = os.path.join(folder, file_json)
 file_path_csv = os.path.join(folder, file_csv)
 file_path_xlsx = os.path.join(folder, file_xlsx)
@@ -22,127 +22,148 @@ abs_path_csv = os.path.abspath(file_path_csv)
 abs_path_xlsx = os.path.abspath(file_path_xlsx)
 
 
-
 def print_hi() -> None:
-    '''
+    """
     Функция выбора вида списка  для анализа JSON-файла или CSV-файла или XLSX-файла.
-    '''
-    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями. \nВыберите необходимый пункт меню:\n1. Получить информацию о транзакциях из JSON-файла\n2. Получить информацию о транзакциях из CSV-файла\n3. Получить информацию о транзакциях из XLSX-файла.")
+    """
+    print(
+        "Привет! Добро пожаловать в программу работы с банковскими транзакциями. \nВыберите необходимый пункт меню:\n1. Получить информацию о транзакциях из JSON-файла\n2. Получить информацию о транзакциях из CSV-файла\n3. Получить информацию о транзакциях из XLSX-файла."
+    )
     while True:
         try:
             choice_file = int(input().strip())
-            if choice_file in {1,2,3}:
+            if choice_file in {1, 2, 3}:
                 break
             else:
-                print('Выбери существующий вариант: 1,2,3')
+                print("Выбери существующий вариант: 1,2,3")
 
         except ValueError as e:
-            print(f'Ошибка: недопустимое значение\n{e}\nВыбери существующий вариант: 1,2,3 ')
-    print(f'Выбран №: {choice_file}')
+            print(f"Ошибка: недопустимое значение\n{e}\nВыбери существующий вариант: 1,2,3 ")
+    print(f"Выбран №: {choice_file}")
     return choice_file
 
 
 def get_inform():
-    '''
+    """
     Функция принимает JSON-файла или CSV-файла или XLSX-файла и сортирует его по статусу EXECUTED, CANCELED, PENDING
-    '''
+    """
     choice = print_hi()
-    print('Введите статус, по которому необходимо выполнить фильтрацию.\nДоступные для фильтровки статусы: EXECUTED, CANCELED, PENDING')
+    print(
+        "Введите статус, по которому необходимо выполнить фильтрацию.\nДоступные для фильтровки статусы: EXECUTED, CANCELED, PENDING"
+    )
     while True:
         try:
             status_coice = input().strip()
-            if status_coice.upper() in {'EXECUTED', 'CANCELED', 'PENDING'}:
+            if status_coice.upper() in {"EXECUTED", "CANCELED", "PENDING"}:
                 if choice == 1:
                     json_file = read_json(abs_path_json)
                     filtered_transactions_json = filter_by_state(json_file, status_coice.upper())
-                    print(f'Для обработки выбран: {status_coice}')
+                    print(f"Для обработки выбран: {status_coice}")
                     return filtered_transactions_json
-                elif choice == 2:
+                if choice == 2:
                     csv_file = read_csv_file(abs_path_csv)
                     filtered_transactions_csv = filter_by_state(csv_file, status_coice.upper())
-                    print(f'Для обработки выбран: {status_coice}')
+                    print(f"Для обработки выбран: {status_coice}")
                     return filtered_transactions_csv
-                elif choice == 3:
+                if choice == 3:
                     xlsx_file = read_xlsx_file(file_path_xlsx)
                     filtered_transactions_xlsx = filter_by_state(xlsx_file, status_coice.upper())
-                    print(f'Для обработки выбран: {status_coice}')
+                    print(f"Для обработки выбран: {status_coice}")
                     return filtered_transactions_xlsx
                 else:
                     print("Файл отсутствует")
                     break
             else:
-                print(f'Данный статус: {status_coice} недоступен. Попробуйте снова')
+                print(f"Данный статус: {status_coice} недоступен. Попробуйте снова")
         except UnboundLocalError as e:
-            print(f'Статус {status_coice} отсутствует в этом списке')
+            print(f"Статус {status_coice} отсутствует в этом списке")
 
 
 def sort_date():
-    '''
+    """
     Функция, которая сортирует по дате: убывания и возрастания.
-    '''
+    """
     try:
         file_get = get_inform()
-        print('Отсортировать операции по дате? Да/Нет')
-        choice_sort = input().strip()
+        if not file_get:
+            print("Не найдено ни одной транзакции")
+            return
+
+        while True:
+            print("Отсортировать операции по дате? Да/Нет")
+            choice_sort = input().strip()
+            if choice_sort.title() in ["Да", "Нет"]:
+                break
+        else:
+            'Пожалуйста введите "Да" или "Нет"'
+
         if choice_sort.title() == "Да":
-            print('Отсортировать по возрастанию или по убыванию?')
-            choice_sort_true = input().strip()
-            if choice_sort_true.lower() == 'убыванию':
+
+            while True:
+                print("Отсортировать по возрастанию или по убыванию?")
+                choice_sort_true = input().strip()
+                if choice_sort_true.title() in ["Возрастанию", "Убыванию"]:
+                    break
+            else:
+                'Пожалуйста введите "возрастанию" или "убыванию"'
+
+            if choice_sort_true.lower() == "убыванию":
                 file_sored_true = sort_by_date(file_get, sort_parameter=True)
                 return file_sored_true
-            elif choice_sort_true.lower() == 'возрастанию':
+            elif choice_sort_true.lower() == "возрастанию":
                 file_sored_false = sort_by_date(file_get, sort_parameter=False)
             return file_sored_false
         else:
             return file_get
     except Exception as ex:
-        print(f'Ошибка при фильтрации транзакций: {ex}')
+        print(f"Ошибка при фильтрации транзакций: {ex}")
+
 
 def sort_rub():
-    '''Функция, которая фильтрует транзакции по критерию отбора: только "RUB" или все транзакции'''
+    """Функция, которая фильтрует транзакции по критерию отбора: только "RUB" или все транзакции"""
     try:
         sorted_rub = sort_date()
-        if not sorted_rub:
-            print('Нет транзакций для обработки')
+        if not sorted_rub:  # Если список пустой, сразу возвращаем его
             return []
         while True:
-            print('Выводить только рублевые транзакции? Да/Нет')
+            print("Выводить только рублевые транзакции? Да/Нет")
             rub_sorted_input = input().strip()
-            if rub_sorted_input.title() in ['Да','Нет']:
+            if rub_sorted_input.title() in ["Да", "Нет"]:
                 break
             else:
                 'Пожалуйста введите "Да" или "Нет"'
 
         if rub_sorted_input.title() == "Да":
-            rub_get_currency = filter_by_currency(sorted_rub, forex="RUB") # Фильтруем только "RUB" транзакции
+            rub_get_currency = filter_by_currency(sorted_rub, forex="RUB")  # Фильтруем только "RUB" транзакции
             if not rub_get_currency:
                 print('"RUB" ранзакций не найдено')
                 return []
             return rub_get_currency
-        else: # Список не изменился, передаем все транзакции
+        else:  # Список не изменился, передаем все транзакции
             return sorted_rub
     except Exception as ex:
-        print(f'Ошибка при фильтрации транзакций: {ex}')
+        print(f"Ошибка при фильтрации транзакций: {ex}")
+
 
 def look_for():
-    '''
+    """
     Функция для фильтрации транзакций и подсчета их количества.
-    '''
+    """
     try:
         # Получаем отсортированные транзакции
         file_to_look = sort_rub()
 
         # Если список пустой, сразу возвращаем его
         if not file_to_look:
-            print('Не найдено ни одной транзакции, подходящей под ваши условия фильтрации')
+            print("Не найдено ни одной транзакции, подходящей под вашиm условия фильтрации")
             return []
 
         # Спрашиваем о фильтрации по ключевому слову
-        print('Отфильтровать список транзакций по определенному слову в описании? Да/Нет')
+        print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
         filter_trans_word = input().strip()
 
         if filter_trans_word.title() == "Да":
-            print('Введите слово для поиска:')
+            print("Введите слово для поиска:")
             word_look_for = input().strip()
 
             # Фильтруем транзакции по ключевому слову
@@ -150,41 +171,41 @@ def look_for():
 
             # Проверяем, найдены ли транзакции
             if not filtered_transactions:
-                print('Не найдено транзакций с указанным ключевым словом')
+                print("Не найдено транзакций с указанным ключевым словом")
                 return []
 
             len_count = len(filtered_transactions)
-            print(f'Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count}')
+            print(f"Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count}")
             return filtered_transactions
 
         elif filter_trans_word.title() == "Нет":
             len_count_not = len(file_to_look)
-            print(f'Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}')
+            print(f"Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}")
             return file_to_look
 
         else:
-            print('Некорректный ввод. Будут показаны все транзакции.')
+            print("Некорректный ввод. Будут показаны все транзакции.")
             len_count_not = len(file_to_look)
-            print(f'Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}')
-            return file_to_look
+
+        print(f"Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}")
+        return file_to_look
 
     except TypeError as ex:
-        print(f'Ошибка типа данных: {ex}')
+        print(f"Ошибка типа данных: {ex}")
         return []
     except Exception as ex:
-        print(f'Произошла ошибка: {ex}')
+        print(f"Произошла ошибка: {ex}")
         return []
-
 
 
 def print_total():
-    '''
+    """
     Функция, которая выводит на печать отфильтрованные транзакции в заданном формате.
-    '''
+    """
     print_t = look_for()  # Получаем отфильтрованные транзакции
 
     if not print_t:
-        print('Не найдено ни одной транзакции, подходящей под ваши условия фильтрации')
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
         return
 
     # Маскируем номера карт/счетов
@@ -209,27 +230,37 @@ def print_total():
 
         # Получаем сумму и валюту (упрощенная логика)
         amount = d.get("amount") or d.get("operationAmount", {}).get("amount")
-        currency = d.get("currency_code") or d.get("operationAmount", {}).get("currency", {}).get("code") or d.get(
-            "operationAmount", {}).get("currency", {}).get("name")
+        currency = (
+            d.get("currency_code")
+            or d.get("operationAmount", {}).get("currency", {}).get("code")
+            or d.get("operationAmount", {}).get("currency", {}).get("name")
+        )
 
         if d["description"] == "Открытие вклада":
             # Для вклада выводим только 'to'
             to_account = masked.get("to", "")
             print(f'{formatted_date} {d.get("description", "")}')
-            print(f'{to_account}')
-            print(f'Сумма: {amount} {currency}\n')
+            print(f"{to_account}")
+            print(f"Сумма: {amount} {currency}\n")
         else:
             # Для переводов выводим 'from' и 'to'
             from_account = masked.get("from", "")
             to_account = masked.get("to", "")
             print(f'{formatted_date} {d.get("description", "")}')
-            print(f'{from_account} -> {to_account}')
-            print(f'Сумма: {amount} {currency}\n')
+            print(f"{from_account} -> {to_account}")
+            print(f"Сумма: {amount} {currency}\n")
 
 
 if __name__ == "__main__":
-    print(print_total())
+   print(print_total())
+
+   print(25 * "~**~")
+
+   # print(read_xlsx_file('data/transactions_excel.xlsx'))
+   #  csv_file = read_csv_file("data/trans_test.csv")
+   #  format_card_and_account = format_card_account(csv_file)
+    # print(format_card_and_account)
 
 
 
-print(25 * "~**~")
+

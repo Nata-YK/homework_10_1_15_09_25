@@ -2,7 +2,7 @@ from typing import Union
 
 import pytest
 
-from src.widget import get_date, mask_account_card
+from src.widget import get_date, mask_account_card, format_card_account
 
 
 @pytest.mark.parametrize(
@@ -44,3 +44,56 @@ def test_get_date(date_string: Union[str], date_wind: Union[str]) -> None:
 
 def test_get_date_empty() -> None:
     assert get_date("") == "Внесите данные"
+
+
+def test_format_card_account_empty():
+    assert format_card_account({}) == "Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
+
+
+def test_format_card_account():
+    expected_result = [
+        {"from": "Счет **3391", "to": "Счет **9397", "description": "Перевод организации"},
+        {
+            "from": "Discover 3172 60** **** 0065",
+            "to": "Discover 0720 42** **** 4643",
+            "description": "Перевод с карты на карту",
+        },
+        {
+            "from": "Visa 1959 23** **** 4097",
+            "to": "Visa 6804 11** **** 3710",
+            "description": "Перевод с карты на карту",
+        },
+    {
+        "from": "Express 8025 48** **** 0082",
+            "to": "Discover 7955 89** **** 2061",
+            "description": "Перевод с карты на карту",
+    },
+    ]
+
+    assert (
+        format_card_account(
+            [
+                {
+                    "from": "Счет 58803664561298323391",
+                    "to": "Счет 39745660563456619397",
+                    "description": "Перевод организации",
+                },
+                {
+                    "from": "Discover 3172601889670065",
+                    "to": "Discover 0720428384694643",
+                    "description": "Перевод с карты на карту",
+                },
+                {
+                    "from": "Visa 1959232722494097",
+                    "to": "Visa 6804119550473710",
+                    "description": "Перевод с карты на карту",
+                },
+        {
+            "from": "American Express 8025488368550082",
+            "to": "Discover 7955892722142061",
+            "description": "Перевод с карты на карту",
+        }
+            ]
+        )
+        == expected_result
+    )
