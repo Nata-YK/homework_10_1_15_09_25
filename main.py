@@ -200,7 +200,7 @@ def look_for():
         return []
 
 
-def print_total():
+def main():
     """
     Функция, которая выводит на печать отфильтрованные транзакции в заданном формате.
     """
@@ -251,40 +251,40 @@ def print_total():
             print(f'{formatted_date} {d.get("description", "")}')
             print(f"{from_account} -> {to_account}")
             print(f"Сумма: {amount} {currency}\n")
-            print(masked_transactions)
+
 
 
 if __name__ == "__main__":
-    # print(print_total())
+    print(main())
 
     print(25 * "~**~")
 
     # print(read_xlsx_file('data/transactions_excel.xlsx'))
     # csv_file = read_csv_file("data/trans_test.csv")
-    file_ = [
-        {
-            "id": 650703.0,
-            "state": "EXECUTED",
-            "date": "2023-09-05T11:30:32Z",
-            "amount": 16210.0,
-            "currency_name": "Sol",
-            "currency_code": "PEN",
-            "from": "Счет 58803664561298323391",
-            "to": "Счет 39745660563456619397",
-            "description": "Перевод организации",
-        },
-        {
-            "id": 3598919.0,
-            "state": "EXECUTED",
-            "date": "2020-12-06T23:00:58Z",
-            "amount": 29740.0,
-            "currency_name": "Peso",
-            "currency_code": "COP",
-            "from": "Discover 3172601889670065",
-            "to": "Discover 0720428384694643",
-            "description": "Перевод с карты на карту",
-        },
-    ]
+    # file_ = [
+    #     {
+    #         "id": 650703.0,
+    #         "state": "EXECUTED",
+    #         "date": "2023-09-05T11:30:32Z",
+    #         "amount": 16210.0,
+    #         "currency_name": "Sol",
+    #         "currency_code": "PEN",
+    #         "from": "Счет 58803664561298323391",
+    #         "to": "Счет 39745660563456619397",
+    #         "description": "Перевод организации",
+    #     },
+    #     {
+    #         "id": 3598919.0,
+    #         "state": "EXECUTED",
+    #         "date": "2020-12-06T23:00:58Z",
+    #         "amount": 29740.0,
+    #         "currency_name": "Peso",
+    #         "currency_code": "COP",
+    #         "from": "Discover 3172601889670065",
+    #         "to": "Discover 0720428384694643",
+    #         "description": "Перевод с карты на карту",
+    #     },
+    # ]
     # format_card_and_account = format_card_account(csv_file)
     # print(format_card_and_account)
-    print(count_transactions(file_, "Перевод организации"))
+    #print(count_transactions(file_, "Перевод организации"))
