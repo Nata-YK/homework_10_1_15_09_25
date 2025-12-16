@@ -1,10 +1,17 @@
 import os.path
+<<<<<<< HEAD
 from typing import Any, Union
+=======
+>>>>>>> 8746eae009d28065908a509a7bbc0a77de642b45
 
 from dateutil.parser import parse
 
 from src.generators import filter_by_currency
+<<<<<<< HEAD
 from src.libraries_collections import look_to_dictionary
+=======
+from src.libraries_collections import count_transactions, look_to_dictionary
+>>>>>>> 8746eae009d28065908a509a7bbc0a77de642b45
 from src.processing import filter_by_state, sort_by_date
 from src.read_file_csv_xlsx import read_csv_file, read_xlsx_file
 from src.utils import read_json
@@ -252,10 +259,47 @@ def main() -> Any:
             print(f'{formatted_date} {d.get("description", "")}')
             print(f"{from_account} -> {to_account}")
             print(f"Сумма: {amount} {currency}\n")
+            print(masked_transactions)
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     print(main())
 
     print(20 * "~**~")
 
+=======
+    # print(print_total())
+
+    print(25 * "~**~")
+
+    # print(read_xlsx_file('data/transactions_excel.xlsx'))
+    # csv_file = read_csv_file("data/trans_test.csv")
+    file_ = [
+        {
+            "id": 650703.0,
+            "state": "EXECUTED",
+            "date": "2023-09-05T11:30:32Z",
+            "amount": 16210.0,
+            "currency_name": "Sol",
+            "currency_code": "PEN",
+            "from": "Счет 58803664561298323391",
+            "to": "Счет 39745660563456619397",
+            "description": "Перевод организации",
+        },
+        {
+            "id": 3598919.0,
+            "state": "EXECUTED",
+            "date": "2020-12-06T23:00:58Z",
+            "amount": 29740.0,
+            "currency_name": "Peso",
+            "currency_code": "COP",
+            "from": "Discover 3172601889670065",
+            "to": "Discover 0720428384694643",
+            "description": "Перевод с карты на карту",
+        },
+    ]
+    # format_card_and_account = format_card_account(csv_file)
+    # print(format_card_and_account)
+    print(count_transactions(file_, "Перевод организации"))
+>>>>>>> 8746eae009d28065908a509a7bbc0a77de642b45
