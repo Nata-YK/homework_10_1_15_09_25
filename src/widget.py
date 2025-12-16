@@ -1,5 +1,5 @@
 import re
-from typing import Union
+from typing import Any, Union
 
 from src.masks import get_mask_account, get_mask_card_number
 
@@ -16,7 +16,7 @@ def mask_account_card(information_number: Union[str]) -> Union[str]:
         return f"{card_split[0]} {get_mask_card_number(num_card)}"
 
 
-def get_date(listing_date: Union[str]) -> Union[str]:
+def get_date(listing_date: Union[str | list]) -> Any:
     """
     Функция, которая принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407" и возвращает строку
     с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024").
@@ -38,7 +38,7 @@ patterns = [
 ]
 
 
-def format_card_account(transactions_filter):
+def format_card_account(transactions_filter: Any) -> Any:
     """
     Функция принимает список транзакций и маскирует номера карт/счетов
     """

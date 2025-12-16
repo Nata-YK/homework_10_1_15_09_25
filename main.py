@@ -1,9 +1,10 @@
 import os.path
+from typing import Any, Union
 
 from dateutil.parser import parse
 
 from src.generators import filter_by_currency
-from src.libraries_collections import count_transactions, look_to_dictionary
+from src.libraries_collections import look_to_dictionary
 from src.processing import filter_by_state, sort_by_date
 from src.read_file_csv_xlsx import read_csv_file, read_xlsx_file
 from src.utils import read_json
@@ -21,7 +22,7 @@ abs_path_csv = os.path.abspath(file_path_csv)
 abs_path_xlsx = os.path.abspath(file_path_xlsx)
 
 
-def print_hi() -> None:
+def print_hi() -> Union[int | str]:
     """
     Функция выбора вида списка  для анализа JSON-файла или CSV-файла или XLSX-файла.
     """
@@ -44,7 +45,7 @@ def print_hi() -> None:
     return choice_file
 
 
-def get_inform():
+def get_inform() -> Any:
     """
     Функция принимает JSON-файла или CSV-файла или XLSX-файла и сортирует его по статусу EXECUTED, CANCELED, PENDING
     """
@@ -81,7 +82,7 @@ def get_inform():
             print(f"Статус {status_coice} отсутствует в этом списке, ошибка х{ex}")
 
 
-def sort_date():
+def sort_date() -> Any:
     """
     Функция, которая сортирует по дате: убывания и возрастания.
     """
@@ -121,7 +122,7 @@ def sort_date():
         print(f"Ошибка при фильтрации транзакций: {ex}")
 
 
-def sort_rub():
+def sort_rub() -> Any:
     """Функция, которая фильтрует транзакции по критерию отбора: только "RUB" или все транзакции"""
     try:
         sorted_rub = sort_date()
@@ -147,7 +148,7 @@ def sort_rub():
         print(f"Ошибка при фильтрации транзакций: {ex}")
 
 
-def look_for():
+def look_for() -> Any:
     """
     Функция для фильтрации транзакций и подсчета их количества.
     """
@@ -200,7 +201,7 @@ def look_for():
         return []
 
 
-def main():
+def main() -> Any:
     """
     Функция, которая выводит на печать отфильтрованные транзакции в заданном формате.
     """
@@ -253,7 +254,6 @@ def main():
             print(f"Сумма: {amount} {currency}\n")
 
 
-
 if __name__ == "__main__":
     print(main())
 
@@ -287,4 +287,4 @@ if __name__ == "__main__":
     # ]
     # format_card_and_account = format_card_account(csv_file)
     # print(format_card_and_account)
-    #print(count_transactions(file_, "Перевод организации"))
+    # print(count_transactions(file_, "Перевод организации"))

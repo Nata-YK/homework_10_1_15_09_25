@@ -1,10 +1,11 @@
 import re
-from ast import parse
 from collections import Counter
+from typing import Any, Iterable, Union
+
 from dateutil.parser import parse
 
 
-def look_to_dictionary(dict_list, string):
+def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
     """
     Функция, которая будет принимать список словарей с данными о банковских операциях и строку поиска,
     а возвращать список словарей, у которых в описании есть данная строка.
@@ -24,7 +25,7 @@ def look_to_dictionary(dict_list, string):
         return {e}
 
 
-def count_transactions(dict_list, class_list):
+def count_transactions(dict_list: Iterable[dict], class_list: Union[str]) -> Counter:
     """
     Функция, которая будет принимать список словарей с данными о банковских операциях и список категорий операций,
     а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой кате-
@@ -41,7 +42,7 @@ def count_transactions(dict_list, class_list):
     return Counter(filtered_transactions)  # для подсчета количества банковских операций воспользуемся Counter
 
 
-def look_date(dict_list):
+def look_date(dict_list: Iterable[dict]) -> Any:
     for item in dict_list:
         date_obj = parse(item["date"])
         formatted_date = date_obj.strftime("%d.%m.%Y")

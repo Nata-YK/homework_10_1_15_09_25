@@ -3,7 +3,7 @@ from collections import Counter
 from src.libraries_collections import count_transactions, look_to_dictionary
 
 
-def test_look_to_dictionary(dict_for_test: [dict]) -> None:
+def test_look_to_dictionary(dict_for_test: list) -> None:
     assert look_to_dictionary(dict_for_test, "CANCELED") == [
         {
             "id": 594226727,
@@ -18,5 +18,5 @@ def test_look_to_dictionary(dict_for_test: [dict]) -> None:
     assert look_to_dictionary(dict_for_test, "CANCELED000") == []
 
 
-def test_count_transactions(dict_for_test: [dict]) -> None:
+def test_count_transactions(dict_for_test: list) -> None:
     assert count_transactions(dict_for_test, "Перевод организации") == Counter({"Перевод организации": 2})

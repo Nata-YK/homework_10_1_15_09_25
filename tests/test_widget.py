@@ -46,11 +46,14 @@ def test_get_date_empty() -> None:
     assert get_date("") == "Внесите данные"
 
 
-def test_format_card_account_empty():
-    assert format_card_account({}) == "Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
+def test_format_card_account_empty(dict_for_test_empty: Union[str]) -> None:
+    assert (
+        format_card_account(dict_for_test_empty)
+        == "Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
+    )
 
 
-def test_format_card_account():
+def test_format_card_account() -> None:
     expected_result = [
         {"from": "Счет **3391", "to": "Счет **9397", "description": "Перевод организации"},
         {

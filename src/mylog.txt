@@ -1,2 +1,2 @@
 
-Name function: dividing Result: 10.0
+Name function: sum_num Result: 30Name function: dividing error: division by zero. Inputs: (10, 0), {}

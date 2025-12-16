@@ -1,8 +1,8 @@
 from functools import wraps
-from typing import Any, Iterable, Union
+from typing import Any, Iterable, Optional, Union
 
 
-def log(filename: Union[str] = "None") -> Any:
+def log(filename: Optional[str] = None) -> Any:
     def wrapper(function: Any) -> Any:
         @wraps(function)
         def time_log(*args: list[str], **kwargs: list[dict]) -> Any:
@@ -61,4 +61,4 @@ def dividing(x: Union[int], y: Union[int]) -> float:
     return x / y
 
 
-print(dividing(10, 1))
+print(dividing(10, 2))

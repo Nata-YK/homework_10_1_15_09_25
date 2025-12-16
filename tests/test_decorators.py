@@ -1,5 +1,7 @@
 from typing import Any, Union
 
+from _pytest.capture import CaptureFixture
+
 from src.decorators import log
 
 
@@ -8,7 +10,7 @@ def dividing(x: Union[int | float], y: Union[int | float]) -> Union[float]:
     return x / y
 
 
-def test_log(capsys) -> Any:
+def test_log(capsys: CaptureFixture[str]) -> Any:
     dividing(1, 10)
     captured = capsys.readouterr()
     assert captured.out == "\nName function: dividing Result: 0.1\n"
