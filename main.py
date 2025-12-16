@@ -257,5 +257,5 @@ def main() -> Any:
 if __name__ == "__main__":
     print(main())
 
-    print(25 * "~**~")
+    print(20 * "~**~")
 
