@@ -83,7 +83,7 @@ def format_card_account(transactions_filter: Any) -> Any:
             formatted_transaction["from"] = masked_from
 
         # Обрабатываем поле 'to'
-        if transaction.get("to"):
+        elif transaction.get("to"):
             masked_to = transaction["to"]
             for pattern in patterns:
                 match = pattern.search(transaction["to"])
