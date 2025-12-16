@@ -50,9 +50,37 @@ def format_card_account(transactions_filter: Any) -> Any:
     for transaction in transactions_filter:
         formatted_transaction = transaction.copy()  # Создаем копию для изменений
 
+        # Обрабатываем поле 'to'
+        if transaction.get("to"):
+            masked_to = transaction["to"]
+            for pattern in patterns:
+                match = pattern.search(transaction["to"])
+                if match:
+                    if pattern.pattern == r"(\d{20})":  # Счет
+                        number = match.group(1)
+                        masked_to = f"Счет **{number[-4:]}"
+                        break
+                    elif pattern.pattern == r"(\w+\s\d{16})":  # Карта типа "Visa 1234..."
+                        full_match = match.group(1)
+                        card_match = re.search(r"(\d{16})", full_match)
+                        if card_match:
+                            card_number = card_match.group(1)
+                            card_name = full_match.replace(card_number, "").strip()
+                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
+                        break
+                    elif pattern.pattern == r"(\w+\s\w+\s\d{16})":  # Формат типа "Visa Platinum 7000..."
+                        full_match = match.group(1)
+                        card_match = re.search(r"(\d{16})", full_match)
+                        if card_match:
+                            card_number = card_match.group(1)
+                            card_name = full_match.replace(card_number, "").strip()
+                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
+                        break
+            formatted_transaction["to"] = masked_to
+
         # Обрабатываем поле 'from'
         if transaction.get("from"):
-            masked_from = transaction["from"]
+            masked_from = transaction.get("from")
             for pattern in patterns:
                 match = pattern.search(transaction["from"])
                 if match:
@@ -80,35 +108,8 @@ def format_card_account(transactions_filter: Any) -> Any:
                             card_name = full_match.replace(card_number, "").strip()
                             masked_from = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
                         break
-            formatted_transaction["from"] = masked_from
 
-        # Обрабатываем поле 'to'
-        elif transaction.get("to"):
-            masked_to = transaction["to"]
-            for pattern in patterns:
-                match = pattern.search(transaction["to"])
-                if match:
-                    if pattern.pattern == r"(\d{20})":  # Счет
-                        number = match.group(1)
-                        masked_to = f"Счет **{number[-4:]}"
-                        break
-                    elif pattern.pattern == r"(\w+\s\d{16})":  # Карта типа "Visa 1234..."
-                        full_match = match.group(1)
-                        card_match = re.search(r"(\d{16})", full_match)
-                        if card_match:
-                            card_number = card_match.group(1)
-                            card_name = full_match.replace(card_number, "").strip()
-                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
-                        break
-                    elif pattern.pattern == r"(\w+\s\w+\s\d{16})":  # Формат типа "Visa Platinum 7000..."
-                        full_match = match.group(1)
-                        card_match = re.search(r"(\d{16})", full_match)
-                        if card_match:
-                            card_number = card_match.group(1)
-                            card_name = full_match.replace(card_number, "").strip()
-                            masked_to = f"{card_name} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
-                        break
-            formatted_transaction["to"] = masked_to
+            formatted_transaction["from"] = masked_from
 
         formatted_transactions.append(formatted_transaction)
 

@@ -241,8 +241,9 @@ def main() -> Any:
 
         if d.get("description") == "Открытие вклада":
             # Для вклада выводим только 'to'
+            from_account = ""
             to_account = masked.get("to", "")
-            print(f'{formatted_date} {d.get("description", "")}')
+            print(f'{formatted_date} {d.get("description", "")}{from_account}')
             print(f"{to_account}")
             print(f"Сумма: {amount} {currency}\n")
         else:
