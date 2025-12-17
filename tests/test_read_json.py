@@ -1,5 +1,9 @@
 import json
+import os
+import tempfile
 from unittest.mock import mock_open, patch
+
+import pytest
 
 from src.utils import read_json
 
@@ -13,3 +17,28 @@ def test_read_valid_json() -> None:
     assert result == mock_data
     assert isinstance(result, list)
     assert len(result) == 1
+
+
+@pytest.mark.parametrize(
+    "json_content,expected_error",
+    [
+        ('{"not": "a list"}', TypeError),  # Не список
+        ("[invalid json", json.JSONDecodeError),  # Некорректный JSON
+    ],
+)
+def test_multiple_cases(json_content, expected_error):
+    """Параметризованный тест для различных случаев"""
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+        f.write(json_content)
+        temp_filename = f.name
+
+    try:
+        if expected_error == TypeError:
+            with pytest.raises(TypeError):
+                read_json(temp_filename)
+        else:
+            # Для JSONDecodeError функция возвращает строку с ошибкой
+            result = read_json(temp_filename)
+            assert "Ошибка: Файл" in result
+    finally:
+        os.unlink(temp_filename)

@@ -1,16 +1,17 @@
 import re
 from collections import Counter
-from typing import Any, Iterable, Union, List, Optional
+from typing import Any, Iterable, List, Union
 
 from dateutil.parser import parse
 
-def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
+
+def look_to_dictionary(dict_list: List[dict], string: Union[str]) -> Any:
     """
     Функция, которая будет принимать список словарей с данными о банковских операциях и строку поиска,
     а возвращать список словарей, у которых в описании есть данная строка.
     """
     try:
-        #Проверяем на None и пустую строку
+        # Проверяем на None и пустую строку
         if string is None or string.strip() == "":
             return dict_list.copy()  # Возвращаем копию для безопасности
 
@@ -26,7 +27,6 @@ def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
         return list_dictionary
     except Exception as e:
         return f"Ошибка: {e}"
-
 
 
 def count_transactions(dict_list: Iterable[dict], class_list: Union[str]) -> Counter:

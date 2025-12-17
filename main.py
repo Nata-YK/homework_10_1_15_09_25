@@ -258,6 +258,5 @@ def main() -> Any:
 
 if __name__ == "__main__":
     print(main())
-    #print(look_for())
-    print(20 * "~**~")
 
+    print(20 * "~**~")
