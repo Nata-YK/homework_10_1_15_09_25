@@ -154,7 +154,7 @@ def look_for() -> Any:
     """
     try:
         # Получаем отсортированные транзакции
-        file_to_look = sort_rub()
+        file_to_look = list(sort_rub())
 
         # Если список пустой, сразу возвращаем его
         if not file_to_look:
@@ -184,14 +184,15 @@ def look_for() -> Any:
         if filter_trans_word.title() == "Нет":
             len_count_not = len(file_to_look)
             print(f"Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}")
-            return file_to_look
+            filtered_transactions = file_to_look
+            return filtered_transactions
 
         else:
             print("Некорректный ввод. Будут показаны все транзакции.")
             len_count_not = len(file_to_look)
 
             print(f"Распечатываю итоговый список транзакций\nВсего банковских операций в выборке: {len_count_not}")
-            return file_to_look
+            print(file_to_look)
 
     except TypeError as ex:
         print(f"Ошибка типа данных: {ex}")
@@ -257,6 +258,6 @@ def main() -> Any:
 
 if __name__ == "__main__":
     print(main())
-
+    #print(look_for())
     print(20 * "~**~")
 

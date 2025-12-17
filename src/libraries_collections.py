@@ -1,9 +1,8 @@
 import re
 from collections import Counter
-from typing import Any, Iterable, Union
+from typing import Any, Iterable, Union, List, Optional
 
 from dateutil.parser import parse
-
 
 def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
     """
@@ -11,6 +10,10 @@ def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
     а возвращать список словарей, у которых в описании есть данная строка.
     """
     try:
+        #Проверяем на None и пустую строку
+        if string is None or string.strip() == "":
+            return dict_list.copy()  # Возвращаем копию для безопасности
+
         pattern = re.compile(re.escape(string))  # Используем re.escape для поиска точного совпадения
         list_dictionary = []
         for dct in dict_list:  # Итерируемся по списку словарей
@@ -22,7 +25,8 @@ def look_to_dictionary(dict_list: Iterable[dict], string: Union[str]) -> Any:
                         break  # Добавляем в словарь или прерываем внутренний цикл
         return list_dictionary
     except Exception as e:
-        return {e}
+        return f"Ошибка: {e}"
+
 
 
 def count_transactions(dict_list: Iterable[dict], class_list: Union[str]) -> Counter:
