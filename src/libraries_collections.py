@@ -5,6 +5,7 @@ from typing import Any, Iterable, List, Union
 from dateutil.parser import parse
 
 
+
 def look_to_dictionary(dict_list: List[dict], string: Union[str]) -> Any:
     """
     Функция, которая будет принимать список словарей с данными о банковских операциях и строку поиска,
@@ -43,7 +44,7 @@ def count_transactions(dict_list: Iterable[dict], class_list: Union[str]) -> Cou
             filtered_transactions.append(
                 key["description"]
             )  # Если сравнение верно, добавляем данный ключ в новый список
-    return Counter(filtered_transactions)  # для подсчета количества банковских операций воспользуемся Counter
+    return dict(Counter(filtered_transactions))  # для подсчета количества банковских операций воспользуемся Counter
 
 
 def look_date(dict_list: Iterable[dict]) -> Any:
@@ -51,3 +52,4 @@ def look_date(dict_list: Iterable[dict]) -> Any:
         date_obj = parse(item["date"])
         formatted_date = date_obj.strftime("%d.%m.%Y")
         return formatted_date
+

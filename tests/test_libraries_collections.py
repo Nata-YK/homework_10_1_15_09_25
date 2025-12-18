@@ -19,4 +19,4 @@ def test_look_to_dictionary(dict_for_test: list) -> None:
 
 
 def test_count_transactions(dict_for_test: list) -> None:
-    assert count_transactions(dict_for_test, "Перевод организации") == Counter({"Перевод организации": 2})
+    assert count_transactions(dict_for_test, "Перевод организации") == dict(Counter({"Перевод организации": 2}))
