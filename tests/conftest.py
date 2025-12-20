@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 
 import pytest
 
@@ -153,3 +153,8 @@ def transactions() -> list[dict]:
             "description": "Перевод с карты на карту",
         },
     ]
+
+
+@pytest.fixture
+def categories() -> List[str]:
+    return ["Перевод с карты на карту", "Перевод организации"]

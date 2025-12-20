@@ -114,4 +114,3 @@ def format_card_account(transactions_filter: Any) -> Any:
         formatted_transactions.append(formatted_transaction)
 
     return formatted_transactions
-

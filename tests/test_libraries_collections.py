@@ -1,4 +1,4 @@
-from collections import Counter
+from typing import List
 
 from src.libraries_collections import count_transactions, look_to_dictionary
 
@@ -18,5 +18,5 @@ def test_look_to_dictionary(dict_for_test: list) -> None:
     assert look_to_dictionary(dict_for_test, "CANCELED000") == []
 
 
-def test_count_transactions(dict_for_test: list) -> None:
-    assert count_transactions(dict_for_test, "Перевод организации") == Counter({"Перевод организации": 2})
+def test_count_transactions(dict_for_test: List[dict], categories: List[str]) -> None:
+    assert count_transactions(dict_for_test, categories) == {"Перевод организации": 2, "Перевод с карты на карту": 1}
