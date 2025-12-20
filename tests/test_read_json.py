@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+from typing import Union
 from unittest.mock import mock_open, patch
 
 import pytest
@@ -26,7 +27,7 @@ def test_read_valid_json() -> None:
         ("[invalid json", json.JSONDecodeError),  # Некорректный JSON
     ],
 )
-def test_multiple_cases(json_content, expected_error):
+def test_multiple_cases(json_content: str, expected_error: Union[TypeError]) -> None:
     """Параметризованный тест для различных случаев"""
     with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
         f.write(json_content)

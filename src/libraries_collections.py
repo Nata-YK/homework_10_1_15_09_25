@@ -1,9 +1,8 @@
 import re
 from collections import Counter
-from typing import Any, Iterable, List, Union, Dict
+from typing import Any, Dict, Iterable, List, Union
 
 from dateutil.parser import parse
-
 
 
 def look_to_dictionary(dict_list: List[dict], string: Union[str]) -> Any:
@@ -36,13 +35,16 @@ def count_transactions(dict_list: List[dict], categories: List[str]) -> Dict[str
     а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой кате-
     гории.
     """
-    counter = Counter()
-    for key in dict_list:  # Итерируемся по списку словарей
-        description_class = key.get("description","") # Проверяем, входит ли описание в список категорий
-        if description_class in categories:
-            counter[description_class] += 1
-    return dict(counter) # для подсчета количества банковских операций воспользуемся Counter
+    # counter = Counter()
+    # for key in dict_list:  # Итерируемся по списку словарей
+    #     description_class = key.get('description', "")  # Проверяем, входит ли описание в список категорий
+    #     if description_class in categories:
+    #         counter[description_class] += 1
+    # return dict(counter)  # для подсчета количества банковских операций воспользуемся Counter
 
+    return dict(
+        Counter(key.get("description", "") for key in dict_list if key.get("description", "") in set(categories))
+    )
 
 
 def look_date(dict_list: Iterable[dict]) -> Any:
@@ -51,7 +53,7 @@ def look_date(dict_list: Iterable[dict]) -> Any:
         formatted_date = date_obj.strftime("%d.%m.%Y")
         return formatted_date
 
-#
+
 # if __name__ == '__main__':
 #     dict_word = [
 #         {
@@ -103,4 +105,3 @@ def look_date(dict_list: Iterable[dict]) -> Any:
 #     categories = ["Перевод с карты на карту","Перевод организации"]
 #     result = count_transactions(dict_word,categories)
 #     print(result)
-
